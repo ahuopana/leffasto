@@ -13,4 +13,6 @@ npm run tauri dev    # native window (needs Rust + Xcode command line tools on m
 Without a TMDB API key (Settings) the app uses a small offline demo catalogue. Data is stored in the webview's localStorage for now (SQLite planned).
 
 ## Status
+Phase 1.1: rating implies watched; group-by shelves (10 facets: genre, decade, director, country, actor, original language, my rating, status, format, runtime); checkbox filters per facet (uncheck to remove, None + check to add); sortable, virtualised list view. Dev tip: open `http://localhost:1420/?seed=2000` for a synthetic 2000-movie library.
+
 Phase 1: library grid, flags (owned / want / watched), half-star rating, TMDB search + add, fi/en UI and content language. See the project plan for later phases (Elonet, loans, daily suggestion, scanning, statistics).

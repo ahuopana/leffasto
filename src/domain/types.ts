@@ -15,6 +15,8 @@ export interface Movie {
   year?: number;
   runtime?: number;
   originalTitle: string;
+  /** ISO 639-1 code, e.g. "fi". */
+  originalLanguage?: string;
   titles: Localized<string>;
   overviews: Localized<string>;
   genres: Localized<string[]>;
@@ -41,11 +43,22 @@ export interface LibraryItem {
   entry: UserEntry;
 }
 
+export type FacetId =
+  | "genre" | "decade" | "director" | "country" | "actor"
+  | "language" | "rating" | "status" | "format" | "runtime";
+
+export type ListColumn =
+  | "title" | "year" | "genres" | "directors" | "countries" | "runtime" | "rating" | "status" | "format";
+
 export interface Settings {
   uiLanguage: UiLanguage;
   contentLanguage: Lang;
   titleDisplay: TitleDisplay;
   tmdbApiKey: string;
+  view: "grid" | "list";
+  groupBy: FacetId | "none";
+  sortKey: ListColumn;
+  sortDir: "asc" | "desc";
 }
 
 export const defaultSettings: Settings = {
@@ -53,4 +66,8 @@ export const defaultSettings: Settings = {
   contentLanguage: "fi",
   titleDisplay: "localized",
   tmdbApiKey: "",
+  view: "grid",
+  groupBy: "none",
+  sortKey: "title",
+  sortDir: "asc",
 };

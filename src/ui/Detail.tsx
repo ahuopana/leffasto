@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { displayGenres, displayOverview, displayTitle } from "../domain/localize";
 import type { LibraryItem, OwnedFormat, Settings, UserEntry } from "../domain/types";
 import { useI18n } from "../i18n";
@@ -11,13 +12,16 @@ interface Props {
   item: LibraryItem;
   settings: Settings;
   onUpdate: (patch: Partial<UserEntry>) => void;
+  onSetRating: (rating: number | undefined) => void;
   onMarkWatched: () => void;
+  onMarkUnwatched: () => void;
   onRemove: () => void;
   onClose: () => void;
 }
 
-export function Detail({ item, settings, onUpdate, onMarkWatched, onRemove, onClose }: Props) {
+export function Detail({ item, settings, onUpdate, onSetRating, onMarkWatched, onMarkUnwatched, onRemove, onClose }: Props) {
   const { t } = useI18n();
+  const [confirmUnwatch, setConfirmUnwatch] = useState(false);
   const { movie, entry } = item;
   const title = displayTitle(movie, settings);
   const overview = displayOverview(movie, settings.contentLanguage);
@@ -42,6 +46,7 @@ export function Detail({ item, settings, onUpdate, onMarkWatched, onRemove, onCl
           <input
             type="checkbox"
             checked={entry.status === "want"}
+            disabled={entry.status === "watched"}
             onChange={(e) => onUpdate({ status: e.target.checked ? "want" : "none" })}
           /> {t("detail.want")}
         </label>
@@ -49,10 +54,21 @@ export function Detail({ item, settings, onUpdate, onMarkWatched, onRemove, onCl
           <input
             type="checkbox"
             checked={entry.status === "watched"}
-            onChange={(e) => (e.target.checked ? onMarkWatched() : onUpdate({ status: "none" }))}
+            onChange={(e) => {
+              if (e.target.checked) onMarkWatched();
+              else if (entry.rating !== undefined) setConfirmUnwatch(true);
+              else onMarkUnwatched();
+            }}
           /> {t("detail.watched")}
         </label>
       </div>
+      {confirmUnwatch && (
+        <div className="confirm" role="alertdialog">
+          <p>{t("detail.unwatchConfirm")}</p>
+          <button className="primary" onClick={() => { onMarkUnwatched(); setConfirmUnwatch(false); }}>{t("detail.unwatchYes")}</button>
+          <button className="link" onClick={() => setConfirmUnwatch(false)}>{t("detail.cancel")}</button>
+        </div>
+      )}
       {entry.owned && (
         <label className="field">
           {t("detail.format")}
@@ -71,7 +87,7 @@ export function Detail({ item, settings, onUpdate, onMarkWatched, onRemove, onCl
       )}
       <div className="field">
         <span>{t("detail.rating")}</span>
-        <Stars value={entry.rating} onChange={(rating) => onUpdate({ rating })} />
+        <Stars value={entry.rating} onChange={onSetRating} />
       </div>
       <button className="danger" onClick={onRemove}>{t("detail.remove")}</button>
     </aside>

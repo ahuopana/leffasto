@@ -1,8 +1,11 @@
-import { useMemo, useState } from "react";
-import { filterItems } from "../domain/filters";
-import type { View } from "../domain/filters";
-import { displayTitle } from "../domain/localize";
-import type { Settings, UserEntry } from "../domain/types";
+import { useCallback, useDeferredValue, useEffect, useMemo, useState } from "react";
+import { buildIndex, orderedValues, valueLabel } from "../domain/facets";
+import { applyFilters, emptyFilter, selectAll, selectOnly } from "../domain/filter";
+import type { FilterState } from "../domain/filter";
+import { groupItems, OTHER } from "../domain/group";
+import { buildSortKeys, sortIndexes } from "../domain/sort";
+import { PEOPLE_FACETS } from "../domain/facets";
+import type { FacetId, ListColumn, Settings, UserEntry } from "../domain/types";
 import { I18nContext, resolveLanguage, translate } from "../i18n";
 import type { MessageKey } from "../i18n";
 import { DemoProvider } from "../services/demo";
@@ -11,30 +14,51 @@ import type { MetadataProvider } from "../services/tmdb";
 import { LibraryStore } from "../storage/library";
 import { AddPanel } from "./AddPanel";
 import { Detail } from "./Detail";
-import { Poster } from "./Poster";
+import { FilterPanel } from "./FilterPanel";
+import { ListView } from "./ListView";
 import { SettingsView } from "./SettingsView";
+import { Shelves } from "./Shelves";
+import { VirtualGrid } from "./VirtualGrid";
+import { FACET_IDS, FACET_LABELS } from "../domain/facets";
 
-type Page = View | "settings";
-const NAV: { page: Page; label: MessageKey }[] = [
-  { page: "all", label: "nav.all" },
-  { page: "owned", label: "nav.owned" },
-  { page: "want", label: "nav.want" },
-  { page: "watched", label: "nav.watched" },
-  { page: "settings", label: "nav.settings" },
+type Preset = "all" | "owned" | "want" | "watched";
+const NAV: { preset: Preset; label: MessageKey }[] = [
+  { preset: "all", label: "nav.all" },
+  { preset: "owned", label: "nav.owned" },
+  { preset: "want", label: "nav.want" },
+  { preset: "watched", label: "nav.watched" },
 ];
 
+function activePreset(filter: FilterState): Preset | null {
+  const sel = filter.facets.status;
+  if (!sel) return "all";
+  if (sel.mode === "include" && sel.values.size === 1) {
+    const [v] = [...sel.values];
+    if (v === "owned" || v === "want" || v === "watched") return v;
+  }
+  return null;
+}
+
 export function App({ storage, systemLocale = navigator.language }: { storage: Storage; systemLocale?: string }) {
-  const store = useMemo(() => new LibraryStore(storage), [storage]);
+  const store = useMemo(() => new LibraryStore(storage, { debounceMs: 300 }), [storage]);
+  useEffect(() => {
+    const flush = () => store.flush();
+    window.addEventListener("beforeunload", flush);
+    return () => { flush(); window.removeEventListener("beforeunload", flush); };
+  }, [store]);
+
   const [items, setItems] = useState(() => store.list());
   const [settings, setSettings] = useState(() => store.getSettings());
-  const [page, setPage] = useState<Page>("all");
-  const [query, setQuery] = useState("");
+  const [showSettings, setShowSettings] = useState(false);
+  const [filter, setFilter] = useState<FilterState>(emptyFilter);
+  const [showFilters, setShowFilters] = useState(false);
   const [selected, setSelected] = useState<number | null>(null);
   const [adding, setAdding] = useState(false);
 
   const lang = resolveLanguage(settings.uiLanguage, systemLocale);
   const i18n = useMemo(() => ({ lang, t: (k: MessageKey, v?: Record<string, string | number>) => translate(lang, k, v) }), [lang]);
   const { t } = i18n;
+  const collator = useMemo(() => new Intl.Collator(lang), [lang]);
 
   const demo = !settings.tmdbApiKey;
   const provider: MetadataProvider = useMemo(
@@ -42,78 +66,132 @@ export function App({ storage, systemLocale = navigator.language }: { storage: S
     [demo, settings.tmdbApiKey],
   );
 
-  const visible = page === "settings" ? [] : filterItems(items, page, query);
+  // Derived data: facet index, sort keys, filtered + sorted indexes, optional groups.
+  const index = useMemo(() => buildIndex(items, settings), [items, settings.contentLanguage]);
+  const countryName = useMemo(() => {
+    let dn: Intl.DisplayNames | null = null;
+    try { dn = new Intl.DisplayNames(lang, { type: "region" }); } catch { /* fall back to codes */ }
+    return (code: string) => dn?.of(code) ?? code;
+  }, [lang]);
+  const sortKeys = useMemo(
+    () => buildSortKeys(items, settings, countryName),
+    [items, settings.contentLanguage, settings.titleDisplay, countryName],
+  );
+  const deferredFilter = useDeferredValue(filter);
+  const filtered = useMemo(() => applyFilters(index, deferredFilter), [index, deferredFilter]);
+  const sorted = useMemo(
+    () => sortIndexes(filtered, settings.view === "list" ? settings.sortKey : "title", settings.view === "list" ? settings.sortDir : "asc", sortKeys, collator),
+    [filtered, settings.view, settings.sortKey, settings.sortDir, sortKeys, collator],
+  );
+  const groups = useMemo(() => {
+    if (settings.groupBy === "none") return undefined;
+    const facet = settings.groupBy;
+    const label = (v: string) => (v === OTHER ? t("group.other") : valueLabel(facet, v, lang, t));
+    const raw = groupItems(index, sorted, facet, (counts) => orderedValues(facet, counts, collator, label), PEOPLE_FACETS.includes(facet) ? 2 : 1);
+    return raw.map((group) => ({ group, label: label(group.key) }));
+  }, [index, sorted, settings.groupBy, collator, lang, t]);
+
   const selectedItem = items.find((i) => i.movie.tmdbId === selected) ?? null;
+  const preset = activePreset(filter);
+  const activeFacetCount = Object.keys(filter.facets).length;
 
-  const changeSettings = (s: Settings) => {
-    store.saveSettings(s);
-    setSettings(s);
-  };
+  const changeSettings = useCallback((patch: Partial<Settings>) => {
+    setSettings((s) => {
+      const next = { ...s, ...patch };
+      store.saveSettings(next);
+      return next;
+    });
+  }, [store]);
+  const select = useCallback((id: number) => setSelected(id), []);
+  const sortBy = useCallback((column: ListColumn) => {
+    changeSettings(settings.sortKey === column
+      ? { sortDir: settings.sortDir === "asc" ? "desc" : "asc" }
+      : { sortKey: column, sortDir: "asc" });
+  }, [changeSettings, settings.sortKey, settings.sortDir]);
+
   const update = (id: number, patch: Partial<UserEntry>) => setItems(store.update(id, patch));
-
   async function add(tmdbId: number) {
     setItems(store.add(await provider.details(tmdbId)));
     setSelected(tmdbId);
     setAdding(false);
   }
+  const applyPreset = (p: Preset) => {
+    setShowSettings(false);
+    setSelected(null);
+    setFilter(p === "all" ? selectAll(filter, "status") : selectOnly(filter, "status", p));
+  };
+  const presetCount = (p: Preset) => (p === "all" ? items.length : index.counts.status.get(p) ?? 0);
+  const titles = sortKeys.title;
 
   return (
     <I18nContext.Provider value={i18n}>
       <div className="app">
         <nav className="sidebar">
           <h1>🎬 {t("appName")}</h1>
-          {NAV.map(({ page: p, label }) => (
-            <button key={p} className={page === p ? "active" : ""} onClick={() => { setPage(p); setSelected(null); }}>
+          {NAV.map(({ preset: p, label }) => (
+            <button key={p} className={!showSettings && preset === p ? "active" : ""} onClick={() => applyPreset(p)}>
               {t(label)}
-              {p !== "settings" && <span className="count">{filterItems(items, p, "").length}</span>}
+              <span className="count">{presetCount(p)}</span>
             </button>
           ))}
+          <button className={showSettings ? "active" : ""} onClick={() => { setShowSettings(true); setSelected(null); }}>
+            {t("nav.settings")}
+          </button>
           <p className="attribution">{t("attribution")}</p>
         </nav>
 
-        <main>
-          {page === "settings" ? (
-            <SettingsView settings={settings} onChange={changeSettings} />
-          ) : (
-            <>
+        {showSettings ? (
+          <main><SettingsView settings={settings} onChange={(s) => changeSettings(s)} /></main>
+        ) : (
+          <>
+            {showFilters && (
+              <FilterPanel index={index} filter={filter} shown={filtered.length} collator={collator} onChange={setFilter} />
+            )}
+            <main className="library">
               <div className="toolbar">
-                <input type="search" value={query} placeholder={t("search.library")} onChange={(e) => setQuery(e.target.value)} />
+                <input type="search" value={filter.query} placeholder={t("search.library")} onChange={(e) => setFilter({ ...filter, query: e.target.value })} />
+                <button className={`toggle ${showFilters ? "on" : ""}`} aria-pressed={showFilters} onClick={() => setShowFilters(!showFilters)}>
+                  ⚙︎ {t("filter.title")}{activeFacetCount > 0 && <span className="badge">{activeFacetCount}</span>}
+                </button>
+                <label className="inline">
+                  {t("group.by")}
+                  <select value={settings.groupBy} onChange={(e) => changeSettings({ groupBy: e.target.value as FacetId | "none" })}>
+                    <option value="none">{t("group.none")}</option>
+                    {FACET_IDS.map((f) => <option key={f} value={f}>{t(FACET_LABELS[f])}</option>)}
+                  </select>
+                </label>
+                <div className="segmented" role="group">
+                  <button className={settings.view === "grid" ? "on" : ""} onClick={() => changeSettings({ view: "grid" })}>▦ {t("view.grid")}</button>
+                  <button className={settings.view === "list" ? "on" : ""} onClick={() => changeSettings({ view: "list" })}>☰ {t("view.list")}</button>
+                </div>
+                <span className="spacer" />
                 <button className="primary" onClick={() => setAdding(true)}>＋ {t("add.title")}</button>
               </div>
-              {visible.length === 0 ? (
-                <p className="empty">{items.length === 0 ? t("empty.library") : t("empty.filter")}</p>
-              ) : (
-                <ul className="grid">
-                  {visible.map(({ movie, entry }) => {
-                    const title = displayTitle(movie, settings);
-                    return (
-                      <li key={movie.tmdbId}>
-                        <button className={`card ${selected === movie.tmdbId ? "selected" : ""}`} onClick={() => setSelected(movie.tmdbId)}>
-                          <Poster movie={movie} title={title} />
-                          <div className="badges">
-                            {entry.owned && <span title={t("detail.owned")}>📀</span>}
-                            {entry.status === "want" && <span title={t("detail.want")}>🔖</span>}
-                            {entry.status === "watched" && <span title={t("detail.watched")}>✔️</span>}
-                            {entry.rating !== undefined && <span className="rating">★ {(entry.rating / 2).toFixed(1)}</span>}
-                          </div>
-                          <span className="card-title">{title}</span>
-                          <span className="muted small">{movie.year}</span>
-                        </button>
-                      </li>
-                    );
-                  })}
-                </ul>
-              )}
-            </>
-          )}
-        </main>
 
-        {selectedItem && page !== "settings" && (
+              {sorted.length === 0 ? (
+                <p className="empty">{items.length === 0 ? t("empty.library") : t("empty.filter")}</p>
+              ) : settings.view === "list" ? (
+                <ListView items={items} indexes={sorted} groups={groups} titles={titles} settings={settings}
+                  countryName={countryName} selected={selected} onSelect={select} onSort={sortBy} />
+              ) : groups ? (
+                <div className="virtual-scroll">
+                  <Shelves groups={groups} items={items} titles={titles} selected={selected} onSelect={select} />
+                </div>
+              ) : (
+                <VirtualGrid indexes={sorted} items={items} titles={titles} selected={selected} onSelect={select} />
+              )}
+            </main>
+          </>
+        )}
+
+        {selectedItem && !showSettings && (
           <Detail
             item={selectedItem}
             settings={settings}
             onUpdate={(patch) => update(selectedItem.movie.tmdbId, patch)}
+            onSetRating={(r) => setItems(store.setRating(selectedItem.movie.tmdbId, r))}
             onMarkWatched={() => setItems(store.markWatched(selectedItem.movie.tmdbId))}
+            onMarkUnwatched={() => setItems(store.markUnwatched(selectedItem.movie.tmdbId))}
             onRemove={() => { setItems(store.remove(selectedItem.movie.tmdbId)); setSelected(null); }}
             onClose={() => setSelected(null)}
           />
@@ -131,3 +209,4 @@ export function App({ storage, systemLocale = navigator.language }: { storage: S
     </I18nContext.Provider>
   );
 }
+

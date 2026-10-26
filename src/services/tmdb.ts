@@ -22,6 +22,7 @@ interface TmdbDetails {
   id: number;
   title: string;
   original_title: string;
+  original_language?: string;
   overview: string;
   release_date?: string;
   runtime?: number | null;
@@ -85,6 +86,7 @@ export function mergeDetails(fi: TmdbDetails, en: TmdbDetails): Movie {
     year: yearOf(en.release_date ?? fi.release_date),
     runtime: en.runtime ?? fi.runtime ?? undefined,
     originalTitle: en.original_title,
+    originalLanguage: en.original_language,
     titles: { fi: fi.title || undefined, en: en.title || undefined },
     overviews: { fi: fi.overview || undefined, en: en.overview || undefined },
     genres: { fi: names(fi), en: names(en) },

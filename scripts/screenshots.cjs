@@ -7,8 +7,9 @@ const { chromium } = require("playwright");
 
 const out = path.join(__dirname, "..", "screenshots");
 const executablePath = process.env.CHROMIUM_PATH || (fs.existsSync("/opt/pw-browsers/chromium") ? "/opt/pw-browsers/chromium" : undefined);
+const URL = "http://localhost:1420";
 
-async function waitForServer(url, tries = 50) {
+async function waitForServer(url, tries = 80) {
   for (let i = 0; i < tries; i++) {
     try { if ((await fetch(url)).ok) return; } catch {}
     await new Promise((r) => setTimeout(r, 200));
@@ -17,56 +18,74 @@ async function waitForServer(url, tries = 50) {
 }
 
 (async () => {
+  fs.mkdirSync(out, { recursive: true });
   const server = spawn("npx", ["vite", "--port", "1420", "--strictPort"], { cwd: path.join(__dirname, ".."), stdio: "ignore" });
   try {
-    await waitForServer("http://localhost:1420");
+    await waitForServer(URL);
     const browser = await chromium.launch(executablePath ? { executablePath } : {});
-    const ctx = await browser.newContext({ viewport: { width: 1280, height: 800 }, locale: "fi-FI", colorScheme: "light" });
+    const ctx = await browser.newContext({ viewport: { width: 1360, height: 840 }, locale: "fi-FI", colorScheme: "light" });
     const page = await ctx.newPage();
-    await page.goto("http://localhost:1420");
     const shot = (name) => page.screenshot({ path: path.join(out, name + ".png") });
+    const errors = [];
+    page.on("pageerror", (e) => errors.push(e.message));
 
+    // Empty state + add dialog (Finnish UI, demo catalogue)
+    await page.goto(URL);
     await shot("01-empty-fi");
 
+    // Rating on an unwatched movie marks it watched
     await page.getByRole("button", { name: /Lisää elokuva/ }).click();
-    await page.getByPlaceholder("Hae nimellä…").fill("a");
+    await page.getByPlaceholder("Hae nimellä…").fill("paratiisissa");
     await page.keyboard.press("Enter");
-    await page.getByText("Tuntematon sotilas").first().waitFor();
-    await shot("02-add-dialog-fi");
-
-    for (const _ of DEMO_COUNT()) {
-      await page.getByRole("button", { name: "Lisää", exact: true }).first().click();
-      await page.getByRole("button", { name: "Lisää elokuva" }).click();
-      await page.getByPlaceholder("Hae nimellä…").fill("a");
-      await page.keyboard.press("Enter");
-      await page.getByText("Kirjastossa").first().waitFor();
-    }
-    await page.keyboard.press("Escape");
-    await page.mouse.click(1200, 780); // close dialog by backdrop
-    await page.waitForTimeout(200);
-    await shot("03-library-fi");
-
-    await page.locator(".card", { hasText: "Varjoja paratiisissa" }).click();
-    await page.getByLabel("Omistan").check();
-    await page.getByLabel("Haluan katsoa").check();
+    await page.getByRole("button", { name: "Lisää", exact: true }).click();
     await page.locator(".star").nth(3).locator(".half.right").click();
-    await page.locator(".card", { hasText: "Tuntematon sotilas" }).click();
-    await page.getByLabel("Katsottu").check();
-    await page.getByLabel("Omistan").check();
-    await page.locator(".star").nth(4).locator(".half.right").click();
-    await page.locator(".card", { hasText: "Varjoja paratiisissa" }).click();
-    await shot("04-detail-fi");
+    await page.waitForTimeout(100);
+    await shot("02-rating-marks-watched-fi");
 
-    await page.getByRole("button", { name: "Asetukset" }).click();
+    // Big synthetic library (dev-only ?seed=)
+    await page.goto(`${URL}/?seed=2000`);
+    await page.waitForSelector(".card");
+    await shot("03-grid-2000-fi");
+
+    await page.getByRole("button", { name: /Suodattimet/ }).click();
+    await page.locator("select").selectOption("genre");
+    await page.waitForSelector(".shelf");
+    await shot("04-shelves-by-genre-fi");
+
+    const facet = (name) => page.locator(".facet").filter({ has: page.getByRole("button", { name: new RegExp(`^[▸▾] ${name}`) }) });
+
+    // Filters: uncheck two genres (remove), switch country to None and add two (add)
+    await page.locator("select").selectOption("none");
+    await facet("Genre").getByLabel(/^Komedia/).uncheck();
+    await facet("Genre").getByLabel(/^Kauhu/).uncheck();
+    await facet("Maa").getByRole("button", { name: /^▸ Maa/ }).click();
+    await facet("Maa").getByRole("button", { name: "Ei mitään" }).click();
+    await facet("Maa").getByLabel(/Suomi/).check();
+    await facet("Maa").getByLabel(/Yhdysvallat/).check();
+    await page.waitForTimeout(200);
+    await shot("05-filters-fi");
+
+    // List view, sorted by year, with timing of a sort click
+    await page.getByRole("button", { name: /Lista/ }).click();
+    await page.locator(".list-head").getByText("Vuosi").click();
+    await page.waitForSelector(".list-row:not(.list-head)");
+    const t0 = Date.now();
+    await page.locator(".list-head").getByText("Ohjaaja").click();
+    await page.waitForFunction(() => document.querySelectorAll(".virtual-row").length > 0);
+    console.log(`sort click -> rows rendered: ${Date.now() - t0} ms; DOM rows: ${await page.locator(".virtual-row").count()}`);
+    await shot("06-list-fi");
+
+    // English UI, list grouped by decade, all filters reset
+    await page.goto(`${URL}/?seed=2000`);
+    await page.getByRole("button", { name: /Asetukset/ }).click();
     await page.locator("select").first().selectOption("en");
-    await shot("05-settings-en");
     await page.getByRole("button", { name: /^All movies/ }).click();
-    await shot("06-library-en");
+    await page.locator("select").selectOption("decade");
+    await shot("07-list-grouped-by-decade-en");
 
     await browser.close();
+    if (errors.length) { console.error("page errors:", errors); process.exitCode = 1; }
   } finally {
     server.kill();
   }
 })().catch((e) => { console.error(e); process.exit(1); });
-
-function DEMO_COUNT() { return [1, 2, 3, 4, 5]; }
