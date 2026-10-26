@@ -4,15 +4,17 @@ import type { MessageKey, TFunction } from "../i18n";
 
 /** Stands in for "no value" so such movies can be toggled in filters and grouped. */
 export const UNKNOWN = "__unknown__";
+/** Location value for owned movies kept in the default place. */
+export const DEFAULT_LOCATION = "__default__";
 
 export const FACET_IDS: FacetId[] = [
-  "genre", "decade", "director", "country", "actor", "language", "rating", "status", "format", "runtime",
+  "genre", "decade", "director", "country", "actor", "language", "rating", "status", "format", "runtime", "location",
 ];
 
 export const FACET_LABELS: Record<FacetId, MessageKey> = {
   genre: "facet.genre", decade: "facet.decade", director: "facet.director", country: "facet.country",
   actor: "facet.actor", language: "facet.language", rating: "facet.rating", status: "facet.status",
-  format: "facet.format", runtime: "facet.runtime",
+  format: "facet.format", runtime: "facet.runtime", location: "facet.location",
 };
 
 /** Facets whose values have a fixed, meaningful order (others are ordered by size). */
@@ -66,12 +68,18 @@ export function facetValues(facet: FacetId, { movie, entry }: LibraryItem, ctx: 
       break;
     case "format": values = [entry.owned ? (entry.format as OwnedFormat | undefined) : undefined]; break;
     case "runtime": values = [runtimeBand(movie.runtime)]; break;
+    case "location": values = [entry.owned ? entry.location ?? DEFAULT_LOCATION : undefined]; break;
   }
   const out = values.filter((v): v is string => !!v);
   return out.length ? out : [UNKNOWN];
 }
 
-export function valueLabel(facet: FacetId, value: string, lang: Lang, t: TFunction): string {
+export function valueLabel(facet: FacetId, value: string, lang: Lang, t: TFunction, defaultLocation = ""): string {
+  if (facet === "location") {
+    if (value === UNKNOWN) return t("value.location.none");
+    if (value === DEFAULT_LOCATION) return defaultLocation || t("location.default");
+    return value;
+  }
   if (value === UNKNOWN) return t("facet.unknown");
   try {
     if (facet === "country") return new Intl.DisplayNames(lang, { type: "region" }).of(value) ?? value;
@@ -120,4 +128,13 @@ export function orderedValues(facet: FacetId, counts: Map<string, number>, colla
     if (a === UNKNOWN || b === UNKNOWN) return a === UNKNOWN ? 1 : -1;
     return (counts.get(b)! - counts.get(a)!) || collator.compare(label(a), label(b));
   });
+}
+
+/** The location facet only matters once the user keeps movies in more than one place. */
+export function locationsInUse(index: FacetIndex): number {
+  return [...index.counts.location.keys()].filter((v) => v !== UNKNOWN).length;
+}
+
+export function visibleFacets(index: FacetIndex): FacetId[] {
+  return FACET_IDS.filter((f) => f !== "location" || locationsInUse(index) > 1);
 }

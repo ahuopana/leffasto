@@ -54,6 +54,38 @@ describe("App", () => {
     expect(watched.checked).toBe(false);
     expect(screen.queryByText(en["detail.clearRating"])).toBeNull();
   });
+  it("owned movies get a location; a new place becomes selectable for other movies", async () => {
+    render(<App storage={localStorage} systemLocale="en-US" />);
+    const addMovie = async (query: string) => {
+      fireEvent.click(screen.getByText(`＋ ${en["add.title"]}`));
+      fireEvent.change(screen.getByPlaceholderText(en["add.placeholder"]), { target: { value: query } });
+      fireEvent.submit(screen.getByPlaceholderText(en["add.placeholder"]));
+      fireEvent.click(await screen.findByText(en["add.button"]));
+      await waitFor(() => screen.getByLabelText(en["detail.owned"]));
+    };
+    await addMovie("paratiisissa");
+    expect(screen.queryByLabelText(en["detail.location"])).toBeNull(); // hidden until owned
+    fireEvent.click(screen.getByLabelText(en["detail.owned"]));
+    const select = screen.getByLabelText(en["detail.location"]) as HTMLSelectElement;
+    expect(select.selectedOptions[0].textContent).toBe(en["location.default"]);
+    fireEvent.change(select, { target: { value: "__new__" } });
+    fireEvent.change(screen.getByPlaceholderText(en["location.namePlaceholder"]), { target: { value: "Summer cottage" } });
+    fireEvent.click(screen.getByText(en["location.add"]));
+    expect((screen.getByLabelText(en["detail.location"]) as HTMLSelectElement).value).toBe("Summer cottage");
+
+    await addMovie("sotilas");
+    fireEvent.click(screen.getByLabelText(en["detail.owned"]));
+    const options = [...(screen.getByLabelText(en["detail.location"]) as HTMLSelectElement).options].map((o) => o.textContent);
+    expect(options).toContain("Summer cottage");
+  });
+  it("collapses the sidebar while filters are open", () => {
+    const { container } = render(<App storage={localStorage} systemLocale="en-US" />);
+    expect(container.querySelector(".sidebar.collapsed")).toBeNull();
+    fireEvent.click(screen.getByRole("button", { name: new RegExp(en["filter.title"]) }));
+    expect(container.querySelector(".sidebar.collapsed")).not.toBeNull();
+    fireEvent.click(screen.getByRole("button", { name: new RegExp(en["filter.title"]) }));
+    expect(container.querySelector(".sidebar.collapsed")).toBeNull();
+  });
   it("list view renders only a window of rows and sorts by column", () => {
     localStorage.setItem("leffasto.library.v2", JSON.stringify(generateLibrary(3000)));
     localStorage.setItem("leffasto.settings.v1", JSON.stringify({ view: "list" }));

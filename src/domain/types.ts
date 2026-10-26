@@ -30,6 +30,8 @@ export interface UserEntry {
   tmdbId: number;
   owned: boolean;
   format?: OwnedFormat;
+  /** Where the owned copy is kept; undefined = the default place. */
+  location?: string;
   status: Status;
   /** 1-10 integer; displayed as 0.5-5 stars. */
   rating?: number;
@@ -45,16 +47,18 @@ export interface LibraryItem {
 
 export type FacetId =
   | "genre" | "decade" | "director" | "country" | "actor"
-  | "language" | "rating" | "status" | "format" | "runtime";
+  | "language" | "rating" | "status" | "format" | "runtime" | "location";
 
 export type ListColumn =
-  | "title" | "year" | "genres" | "directors" | "countries" | "runtime" | "rating" | "status" | "format";
+  | "title" | "year" | "genres" | "directors" | "countries" | "runtime" | "rating" | "status" | "format" | "location";
 
 export interface Settings {
   uiLanguage: UiLanguage;
   contentLanguage: Lang;
   titleDisplay: TitleDisplay;
   tmdbApiKey: string;
+  /** Name of the default place; empty = localized "Home". */
+  defaultLocationName: string;
   view: "grid" | "list";
   groupBy: FacetId | "none";
   sortKey: ListColumn;
@@ -66,6 +70,7 @@ export const defaultSettings: Settings = {
   contentLanguage: "fi",
   titleDisplay: "localized",
   tmdbApiKey: "",
+  defaultLocationName: "",
   view: "grid",
   groupBy: "none",
   sortKey: "title",

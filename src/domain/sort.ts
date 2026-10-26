@@ -12,6 +12,7 @@ export function buildSortKeys(
   items: LibraryItem[],
   settings: Pick<Settings, "contentLanguage" | "titleDisplay">,
   countryName: (code: string) => string,
+  defaultLocation = "",
 ): SortKeys {
   const col = <T extends SortKey>(fn: (i: LibraryItem) => T) => items.map(fn);
   return {
@@ -24,6 +25,7 @@ export function buildSortKeys(
     rating: col((i) => i.entry.rating ?? 0),
     status: col((i) => STATUS_RANK[i.entry.status] * 2 + (i.entry.owned ? 1 : 0)),
     format: col((i) => (i.entry.owned ? i.entry.format ?? "~" : "")),
+    location: col((i) => (i.entry.owned ? i.entry.location ?? (defaultLocation || "~") : "")),
   };
 }
 

@@ -98,6 +98,16 @@ export const en = {
   "detail.unwatchConfirm": "Un-watching clears your rating.",
   "detail.unwatchYes": "Mark as not watched",
   "detail.cancel": "Cancel",
+  "facet.location": "Location",
+  "location.default": "Home",
+  "detail.location": "Location",
+  "location.new": "New location…",
+  "location.add": "Add",
+  "location.namePlaceholder": "e.g. Summer cottage",
+  "value.location.none": "Not owned",
+  "col.location": "Location",
+  "settings.defaultLocation": "Default location name",
+  "settings.defaultLocationHelp": "Where your movies are kept unless you pick another place. Shown in filters once you use more than one location.",
 } as const;
 
 export type MessageKey = keyof typeof en;

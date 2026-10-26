@@ -50,6 +50,7 @@ export function generateLibrary(count: number, seed = 1): LibraryItem[] {
         tmdbId: id,
         owned,
         format: owned ? pick(formats) : undefined,
+        location: owned && rnd() < 0.3 ? pick(["Summer cottage", "Office"]) : undefined,
         status,
         rating: watched && rnd() < 0.7 ? 1 + Math.floor(rnd() * 10) : undefined,
         watchedDates: watched ? ["2024-05-01"] : [],

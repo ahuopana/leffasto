@@ -30,6 +30,11 @@ export function SettingsView({ settings, onChange }: { settings: Settings; onCha
         </select>
       </label>
       <label className="field">
+        {t("settings.defaultLocation")}
+        <input value={settings.defaultLocationName} placeholder={t("location.default")} onChange={(e) => set("defaultLocationName", e.target.value)} />
+        <small className="muted">{t("settings.defaultLocationHelp")}</small>
+      </label>
+      <label className="field">
         {t("settings.apiKey")}
         <input type="password" value={settings.tmdbApiKey} onChange={(e) => set("tmdbApiKey", e.target.value.trim())} />
         <small className="muted">{t("settings.apiKeyHelp")}</small>

@@ -6,11 +6,15 @@ import type { MessageKey } from "../i18n";
 import { Poster } from "./Poster";
 import { Stars } from "./Stars";
 
+const NEW = "__new__";
 const FORMATS: OwnedFormat[] = ["dvd", "bluray", "uhd", "digital"];
 
 interface Props {
   item: LibraryItem;
   settings: Settings;
+  /** Existing places in use (without the default one), for selection on other movies. */
+  locations: string[];
+  defaultLocationName: string;
   onUpdate: (patch: Partial<UserEntry>) => void;
   onSetRating: (rating: number | undefined) => void;
   onMarkWatched: () => void;
@@ -19,9 +23,10 @@ interface Props {
   onClose: () => void;
 }
 
-export function Detail({ item, settings, onUpdate, onSetRating, onMarkWatched, onMarkUnwatched, onRemove, onClose }: Props) {
+export function Detail({ item, settings, locations, defaultLocationName, onUpdate, onSetRating, onMarkWatched, onMarkUnwatched, onRemove, onClose }: Props) {
   const { t } = useI18n();
   const [confirmUnwatch, setConfirmUnwatch] = useState(false);
+  const [newLocation, setNewLocation] = useState<string | null>(null);
   const { movie, entry } = item;
   const title = displayTitle(movie, settings);
   const overview = displayOverview(movie, settings.contentLanguage);
@@ -77,6 +82,36 @@ export function Detail({ item, settings, onUpdate, onSetRating, onMarkWatched, o
             {FORMATS.map((f) => <option key={f} value={f}>{t(`format.${f}` as MessageKey)}</option>)}
           </select>
         </label>
+      )}
+      {entry.owned && (
+        <div className="field">
+          <label htmlFor="location">{t("detail.location")}</label>
+          {newLocation === null ? (
+            <select
+              id="location"
+              value={entry.location ?? ""}
+              onChange={(e) => (e.target.value === NEW ? setNewLocation("") : onUpdate({ location: e.target.value || undefined }))}
+            >
+              <option value="">{defaultLocationName}</option>
+              {locations.map((l) => <option key={l} value={l}>{l}</option>)}
+              <option value={NEW}>{t("location.new")}</option>
+            </select>
+          ) : (
+            <form
+              className="inline-form"
+              onSubmit={(e) => {
+                e.preventDefault();
+                const name = newLocation.trim();
+                if (name) onUpdate({ location: name === defaultLocationName ? undefined : name });
+                setNewLocation(null);
+              }}
+            >
+              <input autoFocus value={newLocation} placeholder={t("location.namePlaceholder")} onChange={(e) => setNewLocation(e.target.value)} />
+              <button className="primary" type="submit">{t("location.add")}</button>
+              <button className="link" type="button" onClick={() => setNewLocation(null)}>{t("detail.cancel")}</button>
+            </form>
+          )}
+        </div>
       )}
       {entry.watchedDates.length > 0 && (
         <p className="muted small">

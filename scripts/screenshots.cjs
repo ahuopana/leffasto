@@ -62,6 +62,8 @@ async function waitForServer(url, tries = 80) {
     await facet("Maa").getByRole("button", { name: "Ei mitään" }).click();
     await facet("Maa").getByLabel(/Suomi/).check();
     await facet("Maa").getByLabel(/Yhdysvallat/).check();
+    await facet("Sijainti").getByRole("button", { name: /^▸ Sijainti/ }).click();
+    await facet("Sijainti").getByLabel(/Office/).uncheck();
     await page.waitForTimeout(200);
     await shot("05-filters-fi");
 
@@ -74,6 +76,20 @@ async function waitForServer(url, tries = 80) {
     await page.waitForFunction(() => document.querySelectorAll(".virtual-row").length > 0);
     console.log(`sort click -> rows rendered: ${Date.now() - t0} ms; DOM rows: ${await page.locator(".virtual-row").count()}`);
     await shot("06-list-fi");
+
+    // Location of an owned movie: pick a new place, then it is selectable for others
+    await page.getByRole("button", { name: /Suodattimet/ }).click(); // close filters
+    await page.getByRole("button", { name: /Ruudukko/ }).click();
+    await page.locator(".card").first().click();
+    const owned = page.getByLabel("Omistan");
+    if (!(await owned.isChecked())) await owned.check();
+    await page.getByLabel("Sijainti", { exact: true }).selectOption({ label: "Uusi sijainti…" });
+    await page.getByPlaceholder("esim. Kesämökki").fill("Kesämökki");
+    await page.getByRole("button", { name: "Lisää", exact: true }).click();
+    await page.locator(".card").nth(1).click();
+    if (!(await owned.isChecked())) await owned.check();
+    await page.getByLabel("Sijainti", { exact: true }).focus();
+    await shot("08-location-detail-fi");
 
     // English UI, list grouped by decade, all filters reset
     await page.goto(`${URL}/?seed=2000`);

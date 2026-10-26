@@ -1,10 +1,10 @@
 import { useCallback, useDeferredValue, useEffect, useMemo, useState } from "react";
-import { buildIndex, orderedValues, valueLabel } from "../domain/facets";
+import { buildIndex, DEFAULT_LOCATION, locationsInUse, orderedValues, valueLabel, visibleFacets } from "../domain/facets";
 import { applyFilters, emptyFilter, selectAll, selectOnly } from "../domain/filter";
 import type { FilterState } from "../domain/filter";
 import { groupItems, OTHER } from "../domain/group";
 import { buildSortKeys, sortIndexes } from "../domain/sort";
-import { PEOPLE_FACETS } from "../domain/facets";
+import { PEOPLE_FACETS, UNKNOWN } from "../domain/facets";
 import type { FacetId, ListColumn, Settings, UserEntry } from "../domain/types";
 import { I18nContext, resolveLanguage, translate } from "../i18n";
 import type { MessageKey } from "../i18n";
@@ -19,7 +19,7 @@ import { ListView } from "./ListView";
 import { SettingsView } from "./SettingsView";
 import { Shelves } from "./Shelves";
 import { VirtualGrid } from "./VirtualGrid";
-import { FACET_IDS, FACET_LABELS } from "../domain/facets";
+import { FACET_LABELS } from "../domain/facets";
 
 type Preset = "all" | "owned" | "want" | "watched";
 const NAV: { preset: Preset; label: MessageKey }[] = [
@@ -28,6 +28,8 @@ const NAV: { preset: Preset; label: MessageKey }[] = [
   { preset: "want", label: "nav.want" },
   { preset: "watched", label: "nav.watched" },
 ];
+
+const NAV_ICON: Record<Preset, string> = { all: "🎞", owned: "📀", want: "🔖", watched: "✔️" };
 
 function activePreset(filter: FilterState): Preset | null {
   const sel = filter.facets.status;
@@ -73,10 +75,16 @@ export function App({ storage, systemLocale = navigator.language }: { storage: S
     try { dn = new Intl.DisplayNames(lang, { type: "region" }); } catch { /* fall back to codes */ }
     return (code: string) => dn?.of(code) ?? code;
   }, [lang]);
+  const defaultLocationName = settings.defaultLocationName.trim() || t("location.default");
   const sortKeys = useMemo(
-    () => buildSortKeys(items, settings, countryName),
-    [items, settings.contentLanguage, settings.titleDisplay, countryName],
+    () => buildSortKeys(items, settings, countryName, defaultLocationName),
+    [items, settings.contentLanguage, settings.titleDisplay, countryName, defaultLocationName],
   );
+  const locations = useMemo(
+    () => [...index.counts.location.keys()].filter((v) => v !== DEFAULT_LOCATION && v !== UNKNOWN).sort(collator.compare),
+    [index, collator],
+  );
+  const showLocation = locationsInUse(index) > 1;
   const deferredFilter = useDeferredValue(filter);
   const filtered = useMemo(() => applyFilters(index, deferredFilter), [index, deferredFilter]);
   const sorted = useMemo(
@@ -86,10 +94,10 @@ export function App({ storage, systemLocale = navigator.language }: { storage: S
   const groups = useMemo(() => {
     if (settings.groupBy === "none") return undefined;
     const facet = settings.groupBy;
-    const label = (v: string) => (v === OTHER ? t("group.other") : valueLabel(facet, v, lang, t));
+    const label = (v: string) => (v === OTHER ? t("group.other") : valueLabel(facet, v, lang, t, defaultLocationName));
     const raw = groupItems(index, sorted, facet, (counts) => orderedValues(facet, counts, collator, label), PEOPLE_FACETS.includes(facet) ? 2 : 1);
     return raw.map((group) => ({ group, label: label(group.key) }));
-  }, [index, sorted, settings.groupBy, collator, lang, t]);
+  }, [index, sorted, settings.groupBy, collator, lang, t, defaultLocationName]);
 
   const selectedItem = items.find((i) => i.movie.tmdbId === selected) ?? null;
   const preset = activePreset(filter);
@@ -126,16 +134,18 @@ export function App({ storage, systemLocale = navigator.language }: { storage: S
   return (
     <I18nContext.Provider value={i18n}>
       <div className="app">
-        <nav className="sidebar">
-          <h1>🎬 {t("appName")}</h1>
+        <nav className={`sidebar ${showFilters && !showSettings ? "collapsed" : ""}`}>
+          <h1><span aria-hidden>🎬</span><span className="label"> {t("appName")}</span></h1>
           {NAV.map(({ preset: p, label }) => (
-            <button key={p} className={!showSettings && preset === p ? "active" : ""} onClick={() => applyPreset(p)}>
-              {t(label)}
+            <button key={p} className={!showSettings && preset === p ? "active" : ""} title={t(label)} onClick={() => applyPreset(p)}>
+              <span className="icon" aria-hidden>{NAV_ICON[p]}</span>
+              <span className="label">{t(label)}</span>
               <span className="count">{presetCount(p)}</span>
             </button>
           ))}
-          <button className={showSettings ? "active" : ""} onClick={() => { setShowSettings(true); setSelected(null); }}>
-            {t("nav.settings")}
+          <button className={showSettings ? "active" : ""} title={t("nav.settings")} onClick={() => { setShowSettings(true); setSelected(null); }}>
+            <span className="icon" aria-hidden>⚙︎</span>
+            <span className="label">{t("nav.settings")}</span>
           </button>
           <p className="attribution">{t("attribution")}</p>
         </nav>
@@ -145,7 +155,7 @@ export function App({ storage, systemLocale = navigator.language }: { storage: S
         ) : (
           <>
             {showFilters && (
-              <FilterPanel index={index} filter={filter} shown={filtered.length} collator={collator} onChange={setFilter} />
+              <FilterPanel index={index} filter={filter} shown={filtered.length} collator={collator} defaultLocation={defaultLocationName} onChange={setFilter} />
             )}
             <main className="library">
               <div className="toolbar">
@@ -157,7 +167,7 @@ export function App({ storage, systemLocale = navigator.language }: { storage: S
                   {t("group.by")}
                   <select value={settings.groupBy} onChange={(e) => changeSettings({ groupBy: e.target.value as FacetId | "none" })}>
                     <option value="none">{t("group.none")}</option>
-                    {FACET_IDS.map((f) => <option key={f} value={f}>{t(FACET_LABELS[f])}</option>)}
+                    {visibleFacets(index).map((f) => <option key={f} value={f}>{t(FACET_LABELS[f])}</option>)}
                   </select>
                 </label>
                 <div className="segmented" role="group">
@@ -172,7 +182,8 @@ export function App({ storage, systemLocale = navigator.language }: { storage: S
                 <p className="empty">{items.length === 0 ? t("empty.library") : t("empty.filter")}</p>
               ) : settings.view === "list" ? (
                 <ListView items={items} indexes={sorted} groups={groups} titles={titles} settings={settings}
-                  countryName={countryName} selected={selected} onSelect={select} onSort={sortBy} />
+                  countryName={countryName} showLocation={showLocation} defaultLocationName={defaultLocationName}
+                  selected={selected} onSelect={select} onSort={sortBy} />
               ) : groups ? (
                 <div className="virtual-scroll">
                   <Shelves groups={groups} items={items} titles={titles} selected={selected} onSelect={select} />
@@ -188,6 +199,8 @@ export function App({ storage, systemLocale = navigator.language }: { storage: S
           <Detail
             item={selectedItem}
             settings={settings}
+            locations={locations}
+            defaultLocationName={defaultLocationName}
             onUpdate={(patch) => update(selectedItem.movie.tmdbId, patch)}
             onSetRating={(r) => setItems(store.setRating(selectedItem.movie.tmdbId, r))}
             onMarkWatched={() => setItems(store.markWatched(selectedItem.movie.tmdbId))}

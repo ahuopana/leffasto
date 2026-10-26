@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { FACET_IDS, FACET_LABELS, orderedValues, valueLabel } from "../domain/facets";
+import { FACET_LABELS, orderedValues, valueLabel, visibleFacets } from "../domain/facets";
 import type { FacetIndex } from "../domain/facets";
 import { emptyFilter, isChecked, isActive, selectAll, selectNone, toggleValue } from "../domain/filter";
 import type { FilterState } from "../domain/filter";
@@ -13,10 +13,11 @@ interface Props {
   filter: FilterState;
   shown: number;
   collator: Intl.Collator;
+  defaultLocation: string;
   onChange: (f: FilterState) => void;
 }
 
-export function FilterPanel({ index, filter, shown, collator, onChange }: Props) {
+export function FilterPanel({ index, filter, shown, collator, defaultLocation, onChange }: Props) {
   const { t, lang } = useI18n();
   const [open, setOpen] = useState<Set<FacetId>>(new Set(["genre"]));
   return (
@@ -26,13 +27,14 @@ export function FilterPanel({ index, filter, shown, collator, onChange }: Props)
         {isActive(filter) && <button className="link" onClick={() => onChange(emptyFilter)}>{t("filter.reset")}</button>}
       </div>
       <p className="muted small">{t("filter.count", { shown, total: index.items.length })}</p>
-      {FACET_IDS.map((facet) => (
+      {visibleFacets(index).map((facet) => (
         <FacetSection
           key={facet}
           facet={facet}
           index={index}
           filter={filter}
           collator={collator}
+          defaultLocation={defaultLocation}
           open={open.has(facet)}
           onToggleOpen={() => setOpen((s) => { const n = new Set(s); if (!n.delete(facet)) n.add(facet); return n; })}
           onChange={onChange}
@@ -44,14 +46,14 @@ export function FilterPanel({ index, filter, shown, collator, onChange }: Props)
   );
 }
 
-function FacetSection({ facet, index, filter, collator, open, onToggleOpen, onChange, t, lang }: {
-  facet: FacetId; index: FacetIndex; filter: FilterState; collator: Intl.Collator; open: boolean;
+function FacetSection({ facet, index, filter, collator, defaultLocation, open, onToggleOpen, onChange, t, lang }: {
+  facet: FacetId; index: FacetIndex; filter: FilterState; collator: Intl.Collator; defaultLocation: string; open: boolean;
   onToggleOpen: () => void; onChange: (f: FilterState) => void; t: ReturnType<typeof useI18n>["t"]; lang: ReturnType<typeof useI18n>["lang"];
 }) {
   const [search, setSearch] = useState("");
   const [more, setMore] = useState(false);
   const counts = index.counts[facet];
-  const label = useMemo(() => (v: string) => valueLabel(facet, v, lang, t), [facet, lang, t]);
+  const label = useMemo(() => (v: string) => valueLabel(facet, v, lang, t, defaultLocation), [facet, lang, t, defaultLocation]);
   const values = useMemo(() => orderedValues(facet, counts, collator, label), [facet, counts, collator, label]);
   const sel = filter.facets[facet];
 
