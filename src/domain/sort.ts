@@ -25,6 +25,7 @@ export function buildSortKeys(
     rating: col((i) => i.entry.rating ?? 0),
     status: col((i) => STATUS_RANK[i.entry.status] * 2 + (i.entry.owned ? 1 : 0)),
     format: col((i) => (i.entry.owned ? i.entry.format ?? "~" : "")),
+    loan: col((i) => i.entry.loan?.person ?? ""),
     location: col((i) => (i.entry.owned ? i.entry.location ?? (defaultLocation || "~") : "")),
   };
 }

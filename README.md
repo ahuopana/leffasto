@@ -17,4 +17,6 @@ Phase 1.1: rating implies watched; group-by shelves (10 facets: genre, decade, d
 
 Locations: owned movies can be kept in different places (default "Home", name editable in Settings); new places are added from the movie's edit panel and become selectable for other movies. The location filter/column only appear once more than one place is in use. The left menu collapses to icons while filters are open.
 
+Phase 3: loans (lend an owned movie or record a borrowed one, due dates, overdue highlighting, history, "Loaned" sidebar page) and a daily "Tonight's pick" suggestion (want-to-watch list, optionally owned-unwatched; stable per day, no repeats within N days, "Not today" re-rolls) with an optional daily notification while the app is open (Tauri notification plugin; checked by hand on macOS, not in CI). Elonet (phase 2) is deferred until Finna API responses can be inspected.
+
 Phase 1: library grid, flags (owned / want / watched), half-star rating, TMDB search + add, fi/en UI and content language. See the project plan for later phases (Elonet, loans, daily suggestion, scanning, statistics).

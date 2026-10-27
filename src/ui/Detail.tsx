@@ -4,6 +4,7 @@ import type { LibraryItem, OwnedFormat, Settings, UserEntry } from "../domain/ty
 import { useI18n } from "../i18n";
 import type { MessageKey } from "../i18n";
 import { Poster } from "./Poster";
+import { LoanSection } from "./LoanSection";
 import { Stars } from "./Stars";
 
 const NEW = "__new__";
@@ -15,6 +16,11 @@ interface Props {
   /** Existing places in use (without the default one), for selection on other movies. */
   locations: string[];
   defaultLocationName: string;
+  people: string[];
+  today: string;
+  onLend: (person: string, opts: { since?: string; due?: string; note?: string }) => void;
+  onBorrow: (person: string, opts: { since?: string; due?: string; note?: string }) => void;
+  onReturn: () => void;
   onUpdate: (patch: Partial<UserEntry>) => void;
   onSetRating: (rating: number | undefined) => void;
   onMarkWatched: () => void;
@@ -23,7 +29,7 @@ interface Props {
   onClose: () => void;
 }
 
-export function Detail({ item, settings, locations, defaultLocationName, onUpdate, onSetRating, onMarkWatched, onMarkUnwatched, onRemove, onClose }: Props) {
+export function Detail({ item, settings, locations, defaultLocationName, people, today, onLend, onBorrow, onReturn, onUpdate, onSetRating, onMarkWatched, onMarkUnwatched, onRemove, onClose }: Props) {
   const { t } = useI18n();
   const [confirmUnwatch, setConfirmUnwatch] = useState(false);
   const [newLocation, setNewLocation] = useState<string | null>(null);
@@ -124,6 +130,7 @@ export function Detail({ item, settings, locations, defaultLocationName, onUpdat
         <span>{t("detail.rating")}</span>
         <Stars value={entry.rating} onChange={onSetRating} />
       </div>
+      <LoanSection item={item} people={people} today={today} onLend={onLend} onBorrow={onBorrow} onReturn={onReturn} />
       <button className="danger" onClick={onRemove}>{t("detail.remove")}</button>
     </aside>
   );

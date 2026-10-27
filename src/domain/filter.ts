@@ -41,6 +41,8 @@ function withFacet(state: FilterState, facet: FacetId, sel: FacetSelection | und
 }
 
 export const selectAll = (state: FilterState, facet: FacetId) => withFacet(state, facet, undefined);
+export const selectValues = (state: FilterState, facet: FacetId, values: string[]) =>
+  withFacet(state, facet, { mode: "include", values: new Set(values) });
 export const selectNone = (state: FilterState, facet: FacetId) =>
   withFacet(state, facet, { mode: "include", values: new Set() });
 

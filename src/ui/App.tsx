@@ -1,35 +1,44 @@
-import { useCallback, useDeferredValue, useEffect, useMemo, useState } from "react";
-import { buildIndex, DEFAULT_LOCATION, locationsInUse, orderedValues, valueLabel, visibleFacets } from "../domain/facets";
-import { applyFilters, emptyFilter, selectAll, selectOnly } from "../domain/filter";
+import { useCallback, useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
+import { buildIndex, DEFAULT_LOCATION, locationsInUse, orderedValues, peopleInUse, valueLabel, visibleFacets } from "../domain/facets";
+import { applyFilters, emptyFilter, isActive, selectAll, selectOnly, selectValues } from "../domain/filter";
 import type { FilterState } from "../domain/filter";
 import { groupItems, OTHER } from "../domain/group";
+import { dateKey } from "../domain/loans";
+import { displayTitle } from "../domain/localize";
 import { buildSortKeys, sortIndexes } from "../domain/sort";
+import { skipPick, todaysPick } from "../domain/suggestion";
 import { PEOPLE_FACETS, UNKNOWN } from "../domain/facets";
 import type { FacetId, ListColumn, Settings, UserEntry } from "../domain/types";
 import { I18nContext, resolveLanguage, translate } from "../i18n";
 import type { MessageKey } from "../i18n";
 import { DemoProvider } from "../services/demo";
+import { createNotifier } from "../services/notifier";
+import type { Notifier } from "../services/notifier";
+import { dailyCheck, startDailyTimer, timePassed } from "../services/scheduler";
 import { TmdbClient } from "../services/tmdb";
 import type { MetadataProvider } from "../services/tmdb";
 import { LibraryStore } from "../storage/library";
+import { SuggestionStore } from "../storage/suggestions";
 import { AddPanel } from "./AddPanel";
 import { Detail } from "./Detail";
 import { FilterPanel } from "./FilterPanel";
 import { ListView } from "./ListView";
 import { SettingsView } from "./SettingsView";
 import { Shelves } from "./Shelves";
+import { TonightsPick } from "./TonightsPick";
 import { VirtualGrid } from "./VirtualGrid";
 import { FACET_LABELS } from "../domain/facets";
 
-type Preset = "all" | "owned" | "want" | "watched";
+type Preset = "all" | "owned" | "want" | "watched" | "loaned";
 const NAV: { preset: Preset; label: MessageKey }[] = [
   { preset: "all", label: "nav.all" },
   { preset: "owned", label: "nav.owned" },
   { preset: "want", label: "nav.want" },
   { preset: "watched", label: "nav.watched" },
+  { preset: "loaned", label: "nav.loaned" },
 ];
 
-const NAV_ICON: Record<Preset, string> = { all: "🎞", owned: "📀", want: "🔖", watched: "✔️" };
+const NAV_ICON: Record<Preset, string> = { all: "🎞", owned: "📀", want: "🔖", watched: "✔️", loaned: "🤝" };
 
 function activePreset(filter: FilterState): Preset | null {
   const sel = filter.facets.status;
@@ -38,10 +47,19 @@ function activePreset(filter: FilterState): Preset | null {
     const [v] = [...sel.values];
     if (v === "owned" || v === "want" || v === "watched") return v;
   }
+  if (sel.mode === "include" && sel.values.size === 2 && sel.values.has("lent") && sel.values.has("borrowed")) return "loaned";
   return null;
 }
 
-export function App({ storage, systemLocale = navigator.language }: { storage: Storage; systemLocale?: string }) {
+interface AppProps {
+  storage: Storage;
+  systemLocale?: string;
+  notifier?: Notifier;
+  /** Injectable clock for tests. */
+  now?: () => Date;
+}
+
+export function App({ storage, systemLocale = navigator.language, notifier: notifierProp, now = () => new Date() }: AppProps) {
   const store = useMemo(() => new LibraryStore(storage, { debounceMs: 300 }), [storage]);
   useEffect(() => {
     const flush = () => store.flush();
@@ -56,6 +74,10 @@ export function App({ storage, systemLocale = navigator.language }: { storage: S
   const [showFilters, setShowFilters] = useState(false);
   const [selected, setSelected] = useState<number | null>(null);
   const [adding, setAdding] = useState(false);
+  const sugStore = useMemo(() => new SuggestionStore(storage), [storage]);
+  const [sug, setSug] = useState(() => sugStore.get());
+  const notifier = useMemo(() => notifierProp ?? createNotifier(), [notifierProp]);
+  const today = dateKey(now());
 
   const lang = resolveLanguage(settings.uiLanguage, systemLocale);
   const i18n = useMemo(() => ({ lang, t: (k: MessageKey, v?: Record<string, string | number>) => translate(lang, k, v) }), [lang]);
@@ -69,7 +91,8 @@ export function App({ storage, systemLocale = navigator.language }: { storage: S
   );
 
   // Derived data: facet index, sort keys, filtered + sorted indexes, optional groups.
-  const index = useMemo(() => buildIndex(items, settings), [items, settings.contentLanguage]);
+  const index = useMemo(() => buildIndex(items, settings, today), [items, settings.contentLanguage, today]);
+  const people = useMemo(() => store.people(), [store, items]);
   const countryName = useMemo(() => {
     let dn: Intl.DisplayNames | null = null;
     try { dn = new Intl.DisplayNames(lang, { type: "region" }); } catch { /* fall back to codes */ }
@@ -85,6 +108,40 @@ export function App({ storage, systemLocale = navigator.language }: { storage: S
     [index, collator],
   );
   const showLocation = locationsInUse(index) > 1;
+  const showLoan = peopleInUse(index) > 0;
+
+  // Daily suggestion: stable for the day, recorded in the history.
+  const pickResult = useMemo(
+    () => (settings.suggestionEnabled ? todaysPick(items, sug.history, today, settings) : { pick: null, history: sug.history }),
+    [items, sug.history, today, settings.suggestionEnabled, settings.suggestOwnedUnwatched, settings.avoidRepeatDays],
+  );
+  const saveSug = useCallback((next: typeof sug) => { sugStore.save(next); setSug(next); }, [sugStore]);
+  useEffect(() => {
+    if (pickResult.history !== sug.history) saveSug({ ...sug, history: pickResult.history });
+  }, [pickResult.history, sug, saveSug]);
+  const showPick = !showSettings && !!pickResult.pick && sug.dismissed !== today && !isActive(filter);
+
+  // Daily notification (while the app is open): at the chosen time, and once on launch if that time has passed.
+  const live = useRef({ items, settings, sug });
+  live.current = { items, settings, sug };
+  useEffect(() => {
+    if (!settings.notificationsEnabled) return;
+    const run = async () => {
+      const { items: its, settings: s, sug: st } = live.current;
+      const next = await dailyCheck({
+        items: its, settings: s, state: st, notifier, now: now(),
+        texts: {
+          movieTitle: (i) => displayTitle(i.movie, s),
+          pickTitle: translate(lang, "notify.pickTitle"),
+          overdueTitle: translate(lang, "notify.overdueTitle"),
+          overdueBody: (title, person) => translate(lang, "notify.overdueBody", { title, person }),
+        },
+      });
+      if (next !== st) saveSug(next);
+    };
+    if (timePassed(settings.suggestionTime, now())) void run();
+    return startDailyTimer(() => live.current.settings.suggestionTime, () => void run(), now);
+  }, [settings.notificationsEnabled, settings.suggestionTime, lang, notifier, saveSug]);
   const deferredFilter = useDeferredValue(filter);
   const filtered = useMemo(() => applyFilters(index, deferredFilter), [index, deferredFilter]);
   const sorted = useMemo(
@@ -126,9 +183,14 @@ export function App({ storage, systemLocale = navigator.language }: { storage: S
   const applyPreset = (p: Preset) => {
     setShowSettings(false);
     setSelected(null);
-    setFilter(p === "all" ? selectAll(filter, "status") : selectOnly(filter, "status", p));
+    setFilter(
+      p === "all" ? selectAll(filter, "status")
+        : p === "loaned" ? selectValues(filter, "status", ["lent", "borrowed"])
+        : selectOnly(filter, "status", p),
+    );
   };
-  const presetCount = (p: Preset) => (p === "all" ? items.length : index.counts.status.get(p) ?? 0);
+  const presetCount = (p: Preset) =>
+    p === "all" ? items.length : p === "loaned" ? (index.counts.status.get("lent") ?? 0) + (index.counts.status.get("borrowed") ?? 0) : index.counts.status.get(p) ?? 0;
   const titles = sortKeys.title;
 
   return (
@@ -151,7 +213,7 @@ export function App({ storage, systemLocale = navigator.language }: { storage: S
         </nav>
 
         {showSettings ? (
-          <main><SettingsView settings={settings} onChange={(s) => changeSettings(s)} /></main>
+          <main><SettingsView settings={settings} notifier={notifier} onChange={(s) => changeSettings(s)} /></main>
         ) : (
           <>
             {showFilters && (
@@ -178,11 +240,26 @@ export function App({ storage, systemLocale = navigator.language }: { storage: S
                 <button className="primary" onClick={() => setAdding(true)}>＋ {t("add.title")}</button>
               </div>
 
+              {showPick && pickResult.pick && (
+                <TonightsPick
+                  pick={pickResult.pick}
+                  settings={settings}
+                  onWatchNow={() => { const id = pickResult.pick!.item.movie.tmdbId; setItems(store.markWatched(id)); setSelected(id); }}
+                  onNotToday={() => saveSug({ ...sug, history: skipPick(items, sug.history, today, settings).history })}
+                  onNotInterested={() => {
+                    const { pick } = pickResult;
+                    if (pick!.reason === "want") setItems(store.update(pick!.item.movie.tmdbId, { status: "none" }));
+                    else saveSug({ ...sug, history: skipPick(items, sug.history, today, settings).history });
+                  }}
+                  onOpen={() => setSelected(pickResult.pick!.item.movie.tmdbId)}
+                  onDismiss={() => saveSug({ ...sug, dismissed: today })}
+                />
+              )}
               {sorted.length === 0 ? (
                 <p className="empty">{items.length === 0 ? t("empty.library") : t("empty.filter")}</p>
               ) : settings.view === "list" ? (
                 <ListView items={items} indexes={sorted} groups={groups} titles={titles} settings={settings}
-                  countryName={countryName} showLocation={showLocation} defaultLocationName={defaultLocationName}
+                  countryName={countryName} showLocation={showLocation} showLoan={showLoan} defaultLocationName={defaultLocationName}
                   selected={selected} onSelect={select} onSort={sortBy} />
               ) : groups ? (
                 <div className="virtual-scroll">
@@ -201,6 +278,11 @@ export function App({ storage, systemLocale = navigator.language }: { storage: S
             settings={settings}
             locations={locations}
             defaultLocationName={defaultLocationName}
+            people={people}
+            today={today}
+            onLend={(person, opts) => setItems(store.lend(selectedItem.movie.tmdbId, person, opts, now()))}
+            onBorrow={(person, opts) => setItems(store.borrow(selectedItem.movie.tmdbId, person, opts, now()))}
+            onReturn={() => setItems(store.returnLoan(selectedItem.movie.tmdbId, now()))}
             onUpdate={(patch) => update(selectedItem.movie.tmdbId, patch)}
             onSetRating={(r) => setItems(store.setRating(selectedItem.movie.tmdbId, r))}
             onMarkWatched={() => setItems(store.markWatched(selectedItem.movie.tmdbId))}

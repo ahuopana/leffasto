@@ -1,3 +1,4 @@
+import { dateKey, isOverdue } from "./loans";
 import type { FacetId, Lang, LibraryItem, OwnedFormat, Settings } from "./types";
 import { displayGenres } from "./localize";
 import type { MessageKey, TFunction } from "../i18n";
@@ -8,19 +9,19 @@ export const UNKNOWN = "__unknown__";
 export const DEFAULT_LOCATION = "__default__";
 
 export const FACET_IDS: FacetId[] = [
-  "genre", "decade", "director", "country", "actor", "language", "rating", "status", "format", "runtime", "location",
+  "genre", "decade", "director", "country", "actor", "language", "rating", "status", "format", "runtime", "location", "person",
 ];
 
 export const FACET_LABELS: Record<FacetId, MessageKey> = {
   genre: "facet.genre", decade: "facet.decade", director: "facet.director", country: "facet.country",
   actor: "facet.actor", language: "facet.language", rating: "facet.rating", status: "facet.status",
-  format: "facet.format", runtime: "facet.runtime", location: "facet.location",
+  format: "facet.format", runtime: "facet.runtime", location: "facet.location", person: "facet.person",
 };
 
 /** Facets whose values have a fixed, meaningful order (others are ordered by size). */
 const NATURAL_ORDER: Partial<Record<FacetId, string[]>> = {
   rating: ["r5", "r4", "r3", "r2", "r0"],
-  status: ["owned", "want", "watched", "unwatched"],
+  status: ["owned", "want", "watched", "unwatched", "lent", "borrowed", "overdue"],
   format: ["dvd", "bluray", "uhd", "digital"],
   runtime: ["lt90", "90-120", "120-150", "gt150"],
 };
@@ -30,6 +31,8 @@ export const PEOPLE_FACETS: FacetId[] = ["director", "actor"];
 
 export interface FacetContext {
   contentLanguage: Lang;
+  /** Local date (YYYY-MM-DD) used to decide whether a loan is overdue. */
+  today?: string;
 }
 
 export function ratingBand(rating: number | undefined): string {
@@ -64,8 +67,11 @@ export function facetValues(facet: FacetId, { movie, entry }: LibraryItem, ctx: 
         entry.owned ? "owned" : undefined,
         entry.status === "want" ? "want" : undefined,
         entry.status === "watched" ? "watched" : "unwatched",
+        entry.loan ? (entry.loan.direction === "lentTo" ? "lent" : "borrowed") : undefined,
+        entry.loan && isOverdue(entry.loan, ctx.today ?? dateKey(new Date())) ? "overdue" : undefined,
       ];
       break;
+    case "person": values = [entry.loan?.person]; break;
     case "format": values = [entry.owned ? (entry.format as OwnedFormat | undefined) : undefined]; break;
     case "runtime": values = [runtimeBand(movie.runtime)]; break;
     case "location": values = [entry.owned ? entry.location ?? DEFAULT_LOCATION : undefined]; break;
@@ -75,6 +81,7 @@ export function facetValues(facet: FacetId, { movie, entry }: LibraryItem, ctx: 
 }
 
 export function valueLabel(facet: FacetId, value: string, lang: Lang, t: TFunction, defaultLocation = ""): string {
+  if (facet === "person" && value === UNKNOWN) return t("value.person.none");
   if (facet === "location") {
     if (value === UNKNOWN) return t("value.location.none");
     if (value === DEFAULT_LOCATION) return defaultLocation || t("location.default");
@@ -104,8 +111,8 @@ export interface FacetIndex {
   counts: Record<FacetId, Map<string, number>>;
 }
 
-export function buildIndex(items: LibraryItem[], settings: Pick<Settings, "contentLanguage">): FacetIndex {
-  const ctx: FacetContext = { contentLanguage: settings.contentLanguage };
+export function buildIndex(items: LibraryItem[], settings: Pick<Settings, "contentLanguage">, today?: string): FacetIndex {
+  const ctx: FacetContext = { contentLanguage: settings.contentLanguage, today };
   const values = {} as FacetIndex["values"];
   const counts = {} as FacetIndex["counts"];
   for (const facet of FACET_IDS) {
@@ -135,6 +142,11 @@ export function locationsInUse(index: FacetIndex): number {
   return [...index.counts.location.keys()].filter((v) => v !== UNKNOWN).length;
 }
 
+/** People facet only matters once someone has borrowed or lent something. */
+export function peopleInUse(index: FacetIndex): number {
+  return [...index.counts.person.keys()].filter((v) => v !== UNKNOWN).length;
+}
+
 export function visibleFacets(index: FacetIndex): FacetId[] {
-  return FACET_IDS.filter((f) => f !== "location" || locationsInUse(index) > 1);
+  return FACET_IDS.filter((f) => (f !== "location" || locationsInUse(index) > 1) && (f !== "person" || peopleInUse(index) > 0));
 }

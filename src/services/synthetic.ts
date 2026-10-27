@@ -1,4 +1,5 @@
-import type { LibraryItem, OwnedFormat } from "../domain/types";
+import { dateKey } from "../domain/loans";
+import type { LibraryItem, Loan, OwnedFormat } from "../domain/types";
 
 /** Deterministic fake library for performance tests and the dev-only `?seed=N` URL option. */
 export function generateLibrary(count: number, seed = 1): LibraryItem[] {
@@ -25,6 +26,12 @@ export function generateLibrary(count: number, seed = 1): LibraryItem[] {
   const w2 = ["River", "Summer", "Road", "City", "Garden", "Promise", "Empire", "Night", "Station", "Island"];
   const formats: OwnedFormat[] = ["dvd", "bluray", "uhd", "digital"];
 
+  const people = ["Maija", "Jussi", "Liisa", "Pekka"];
+  const day = 86_400_000;
+  const ago = (n: number) => dateKey(new Date(Date.now() - n * day));
+  const ahead = (n: number) => dateKey(new Date(Date.now() + n * day));
+
+  let lent = 0;
   return Array.from({ length: count }, (_, i) => {
     const id = 100_000 + i;
     const g = some(genres, 3);
@@ -32,6 +39,13 @@ export function generateLibrary(count: number, seed = 1): LibraryItem[] {
     const watched = rnd() < 0.55;
     const owned = rnd() < 0.4;
     const status = watched ? "watched" : rnd() < 0.4 ? "want" : "none";
+    const loanRoll = rnd();
+    const loan: Loan | undefined =
+      owned && loanRoll < 0.06
+        ? { direction: "lentTo", person: pick(people), since: ago(20 + Math.floor(rnd() * 40)), due: lent++ < 4 || rnd() < 0.5 ? ago(2 + Math.floor(rnd() * 15)) : ahead(1 + Math.floor(rnd() * 20)) }
+        : !owned && loanRoll < 0.02
+          ? { direction: "borrowedFrom", person: pick(people), since: ago(5 + Math.floor(rnd() * 10)), due: ahead(3 + Math.floor(rnd() * 20)) }
+          : undefined;
     return {
       movie: {
         tmdbId: id,
@@ -53,6 +67,7 @@ export function generateLibrary(count: number, seed = 1): LibraryItem[] {
         location: owned && rnd() < 0.3 ? pick(["Summer cottage", "Office"]) : undefined,
         status,
         rating: watched && rnd() < 0.7 ? 1 + Math.floor(rnd() * 10) : undefined,
+        loan,
         watchedDates: watched ? ["2024-05-01"] : [],
         notes: "",
         addedAt: "2025-01-01T00:00:00.000Z",

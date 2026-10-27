@@ -1,5 +1,6 @@
+import { dateKey, toRecord } from "../domain/loans";
 import { defaultSettings } from "../domain/types";
-import type { LibraryItem, Movie, Settings, UserEntry } from "../domain/types";
+import type { LibraryItem, LoanDirection, Movie, Settings, UserEntry } from "../domain/types";
 
 const LIBRARY_KEY = "leffasto.library.v2";
 const LEGACY_LIBRARY_KEY = "leffasto.library.v1";
@@ -111,6 +112,48 @@ export class LibraryStore {
   /** Back to "not watched"; clears the rating (and keeps the watch history). */
   markUnwatched(tmdbId: number): LibraryItem[] {
     return this.update(tmdbId, { status: "none" });
+  }
+
+  /** Lend an owned movie to someone. Ignored if not owned or already on loan. */
+  lend(tmdbId: number, person: string, opts: { since?: string; due?: string; note?: string } = {}, now = new Date()): LibraryItem[] {
+    return this.startLoan(tmdbId, "lentTo", person, opts, now);
+  }
+
+  /** Record that you borrowed a movie from someone. Ignored if already on loan. */
+  borrow(tmdbId: number, person: string, opts: { since?: string; due?: string; note?: string } = {}, now = new Date()): LibraryItem[] {
+    return this.startLoan(tmdbId, "borrowedFrom", person, opts, now);
+  }
+
+  private startLoan(
+    tmdbId: number, direction: LoanDirection, person: string,
+    opts: { since?: string; due?: string; note?: string }, now: Date,
+  ): LibraryItem[] {
+    const name = person.trim();
+    if (!name) return this.list();
+    return this.patch(tmdbId, (e) => {
+      if (e.loan || (direction === "lentTo" && !e.owned)) return e;
+      return { ...e, loan: { direction, person: name, since: opts.since ?? dateKey(now), due: opts.due || undefined, note: opts.note?.trim() || undefined } };
+    });
+  }
+
+  returnLoan(tmdbId: number, now = new Date()): LibraryItem[] {
+    return this.patch(tmdbId, (e) => {
+      if (!e.loan) return e;
+      const { loan, ...rest } = e;
+      return { ...rest, loanHistory: [...(e.loanHistory ?? []), toRecord(loan, dateKey(now))] };
+    });
+  }
+
+  /** Everyone you have lent to or borrowed from, most recent first (for autocomplete). */
+  people(): string[] {
+    const seen = new Map<string, string>();
+    for (const { entry } of this.list()) {
+      for (const l of [...(entry.loanHistory ?? []), ...(entry.loan ? [entry.loan] : [])]) {
+        const when = "returned" in l ? (l as { returned: string }).returned : l.since;
+        if (!seen.has(l.person) || seen.get(l.person)! < when) seen.set(l.person, when);
+      }
+    }
+    return [...seen].sort((a, b) => (a[1] < b[1] ? 1 : -1)).map(([name]) => name);
   }
 
   remove(tmdbId: number): LibraryItem[] {

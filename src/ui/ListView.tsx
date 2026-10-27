@@ -7,7 +7,7 @@ import type { MessageKey } from "../i18n";
 import { useWindow } from "./useWindow";
 
 export const ROW_H = 32;
-const COLUMNS: ListColumn[] = ["title", "year", "genres", "directors", "countries", "runtime", "rating", "status", "format", "location"];
+const COLUMNS: ListColumn[] = ["title", "year", "genres", "directors", "countries", "runtime", "rating", "status", "format", "location", "loan"];
 const NUMERIC: ListColumn[] = ["year", "runtime", "rating"];
 
 type VRow = { kind: "header"; key: string; label: string; count: number } | { kind: "item"; index: number };
@@ -22,15 +22,16 @@ interface Props {
   countryName: (code: string) => string;
   /** Show the location column (only when more than one place is in use). */
   showLocation: boolean;
+  showLoan: boolean;
   defaultLocationName: string;
   selected: number | null;
   onSelect: (tmdbId: number) => void;
   onSort: (column: ListColumn) => void;
 }
 
-const Row = memo(function Row({ item, title, settings, countryName, showLocation, defaultLocationName, selected, onSelect, t }: {
+const Row = memo(function Row({ item, title, settings, countryName, showLocation, showLoan, defaultLocationName, selected, onSelect, t }: {
   item: LibraryItem; title: string; settings: Settings; countryName: (c: string) => string;
-  showLocation: boolean; defaultLocationName: string;
+  showLocation: boolean; showLoan: boolean; defaultLocationName: string;
   selected: boolean; onSelect: (id: number) => void; t: (k: MessageKey) => string;
 }) {
   const { movie, entry } = item;
@@ -48,11 +49,12 @@ const Row = memo(function Row({ item, title, settings, countryName, showLocation
       </span>
       <span className="cell">{entry.owned ? `📀 ${entry.format ? t(`format.${entry.format}` as MessageKey) : ""}` : ""}</span>
       {showLocation && <span className="cell">{entry.owned ? entry.location ?? defaultLocationName : ""}</span>}
+      {showLoan && <span className="cell">{entry.loan ? `${entry.loan.direction === "lentTo" ? "→" : "←"} ${entry.loan.person}` : ""}</span>}
     </div>
   );
 });
 
-export function ListView({ items, indexes, groups, titles, settings, countryName, showLocation, defaultLocationName, selected, onSelect, onSort }: Props) {
+export function ListView({ items, indexes, groups, titles, settings, countryName, showLocation, showLoan, defaultLocationName, selected, onSelect, onSort }: Props) {
   const { t } = useI18n();
   const rows = useMemo<VRow[]>(() => {
     if (!groups) return indexes.map((index) => ({ kind: "item", index }));
@@ -65,9 +67,9 @@ export function ListView({ items, indexes, groups, titles, settings, countryName
   const visible = rows.slice(win.start, win.end);
 
   return (
-    <div className={`list ${showLocation ? "with-location" : ""}`}>
+    <div className={`list ${showLocation ? "with-location" : ""} ${showLoan ? "with-loan" : ""}`}>
       <div className="list-row list-head">
-        {COLUMNS.filter((c) => c !== "location" || showLocation).map((c) => (
+        {COLUMNS.filter((c) => (c !== "location" || showLocation) && (c !== "loan" || showLoan)).map((c) => (
           <button key={c} className={`cell head ${NUMERIC.includes(c) ? "num" : ""}`} onClick={() => onSort(c)}>
             {t(`col.${c}` as MessageKey)}
             {settings.sortKey === c && (settings.sortDir === "asc" ? " ▲" : " ▼")}
@@ -88,6 +90,7 @@ export function ListView({ items, indexes, groups, titles, settings, countryName
                   settings={settings}
                   countryName={countryName}
                   showLocation={showLocation}
+                  showLoan={showLoan}
                   defaultLocationName={defaultLocationName}
                   selected={selected === items[row.index].movie.tmdbId}
                   onSelect={onSelect}

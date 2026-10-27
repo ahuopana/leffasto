@@ -91,6 +91,28 @@ async function waitForServer(url, tries = 80) {
     await page.getByLabel("Sijainti", { exact: true }).focus();
     await shot("08-location-detail-fi");
 
+    // Loans: fresh state, Loaned page, an overdue loan in the detail panel, and the lend form
+    await page.goto(`${URL}/?seed=2000`);
+    await page.locator(".sidebar button", { hasText: "Lainassa" }).click();
+    await page.getByRole("button", { name: /Lista/ }).click();
+    await page.waitForSelector(".list-row:not(.list-head)");
+    await shot("09-loaned-list-fi");
+    await page.getByRole("button", { name: /Suodattimet/ }).click();
+    await page.getByRole("button", { name: /^▸ Tila/ }).click();
+    await facet("Tila").getByRole("button", { name: "Ei mitään" }).click();
+    await facet("Tila").getByLabel(/Myöhässä oleva laina/).check();
+    await page.waitForSelector(".list-row:not(.list-head)");
+    await page.locator(".list-row:not(.list-head)").first().click();
+    await shot("10-loan-detail-fi");
+    await page.getByRole("button", { name: /Suodattimet/ }).click();
+    await page.goto(`${URL}/?seed=2000`);
+    await page.getByRole("button", { name: /Ruudukko/ }).click();
+    await page.locator(".card:has(span[title='Omistan']):not(:has(span[title='Lainassa']))").first().click();
+    await page.getByRole("button", { name: "Lainaa henkilölle…" }).click();
+    await page.getByPlaceholder("Nimi").fill("Ma");
+    await page.locator(".detail").evaluate((e) => e.scrollTo(0, e.scrollHeight));
+    await shot("11-loan-form-fi");
+
     // English UI, list grouped by decade, all filters reset
     await page.goto(`${URL}/?seed=2000`);
     await page.getByRole("button", { name: /Asetukset/ }).click();
