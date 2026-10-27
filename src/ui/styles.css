@@ -186,3 +186,29 @@ button.bar-row:hover { background: color-mix(in srgb, var(--text) 6%, transparen
 .watched-dates ul { list-style: none; margin: 0; padding: 0; }
 .watched-dates li { display: flex; align-items: center; justify-content: space-between; }
 button.icon.small { font-size: 16px; }
+
+/* Fast add: barcode + cover photo */
+.modal.wide { width: 640px; }
+.tabs { margin: 10px 0 8px; }
+.tabs button { flex: 1; }
+.notice.ok { background: color-mix(in srgb, #1baf7a 18%, transparent); }
+.scan-tab { display: flex; flex-direction: column; gap: 8px; margin: 8px 0; }
+.camera-box { position: relative; background: #000; border-radius: 10px; overflow: hidden; aspect-ratio: 16 / 9; display: flex; align-items: center; justify-content: center; }
+.camera-box video { width: 100%; height: 100%; object-fit: cover; }
+.camera-note { position: absolute; margin: 0; padding: 0 16px; color: #fff; text-align: center; }
+.camera-note.error { color: #ffb4ab; }
+.scan-line { position: absolute; left: 12%; right: 12%; top: 50%; height: 2px; background: rgba(255, 60, 60, .85); box-shadow: 0 0 8px rgba(255, 60, 60, .8); }
+.camera-box .snap { position: absolute; bottom: 12px; }
+.dropzone { border: 2px dashed var(--border); border-radius: 10px; padding: 18px; text-align: center; }
+.dropzone.over { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 8%, transparent); }
+.scan-queue h3 { margin: 12px 0 6px; font-size: 14px; }
+.scan-queue > ul, .candidates { list-style: none; margin: 0; padding: 0; }
+.scan-item { border-top: 1px solid var(--border); padding: 8px 0; }
+.scan-item-head { display: flex; gap: 10px; align-items: center; }
+.scan-item-head .icon { margin-left: auto; }
+.scan-code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; }
+.scan-match { margin: 4px 0 0; display: flex; gap: 6px; align-items: baseline; flex-wrap: wrap; }
+.scan-match .link { margin-left: auto; }
+.candidate { display: block; text-align: left; padding: 3px 0; }
+.scan-queue footer { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); }
+.scan-item.matched { background: color-mix(in srgb, #1baf7a 6%, transparent); }

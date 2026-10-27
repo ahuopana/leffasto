@@ -10,16 +10,36 @@
     "frontendDist": "../dist"
   },
   "app": {
-    "windows": [{ "title": "Leffasto", "width": 1280, "height": 800, "minWidth": 900, "minHeight": 600 }],
+    "windows": [
+      {
+        "title": "Leffasto",
+        "width": 1280,
+        "height": 800,
+        "minWidth": 900,
+        "minHeight": 600
+      }
+    ],
     "security": {
-      "csp": "default-src 'self'; connect-src 'self' https://api.themoviedb.org; img-src 'self' data: https://image.tmdb.org; style-src 'self' 'unsafe-inline'"
+      "csp": "default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; worker-src 'self' blob:; connect-src 'self' https://api.themoviedb.org ipc: http://ipc.localhost; img-src 'self' data: blob: https://image.tmdb.org; media-src 'self' blob: mediastream:; style-src 'self' 'unsafe-inline'"
     }
   },
   "bundle": {
     "active": true,
-    "targets": ["app", "dmg"],
+    "targets": [
+      "app",
+      "dmg"
+    ],
     "category": "Entertainment",
-    "icon": ["icons/32x32.png", "icons/128x128.png", "icons/128x128@2x.png", "icons/icon.icns", "icons/icon.ico"],
-    "macOS": { "minimumSystemVersion": "12.0" }
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "macOS": {
+      "minimumSystemVersion": "12.0",
+      "entitlements": "Entitlements.plist"
+    }
   }
 }

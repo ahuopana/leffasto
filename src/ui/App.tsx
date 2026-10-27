@@ -8,10 +8,11 @@ import { displayTitle } from "../domain/localize";
 import { buildSortKeys, sortIndexes } from "../domain/sort";
 import { skipPick, todaysPick } from "../domain/suggestion";
 import { PEOPLE_FACETS, UNKNOWN } from "../domain/facets";
-import type { FacetId, ListColumn, Settings, UserEntry } from "../domain/types";
+import type { FacetId, ListColumn, OwnedFormat, Settings, UserEntry } from "../domain/types";
 import { I18nContext, resolveLanguage, translate } from "../i18n";
 import type { MessageKey } from "../i18n";
 import { DemoProvider } from "../services/demo";
+import type { BarcodeLookup } from "../services/barcode-lookup";
 import { createNotifier } from "../services/notifier";
 import type { Notifier } from "../services/notifier";
 import { dailyCheck, startDailyTimer, timePassed } from "../services/scheduler";
@@ -26,6 +27,7 @@ import { ListView } from "./ListView";
 import { SettingsView } from "./SettingsView";
 import { Shelves } from "./Shelves";
 import { StatsView } from "./StatsView";
+import type { ScanDeps } from "./useScanQueue";
 import { TonightsPick } from "./TonightsPick";
 import { VirtualGrid } from "./VirtualGrid";
 import { FACET_LABELS } from "../domain/facets";
@@ -58,9 +60,12 @@ interface AppProps {
   notifier?: Notifier;
   /** Injectable clock for tests. */
   now?: () => Date;
+  /** Injection points for tests. */
+  lookup?: BarcodeLookup;
+  ocr?: ScanDeps["ocr"];
 }
 
-export function App({ storage, systemLocale = navigator.language, notifier: notifierProp, now = () => new Date() }: AppProps) {
+export function App({ storage, systemLocale = navigator.language, notifier: notifierProp, now = () => new Date(), lookup: lookupProp, ocr: ocrProp }: AppProps) {
   const store = useMemo(() => new LibraryStore(storage, { debounceMs: 300 }), [storage]);
   useEffect(() => {
     const flush = () => store.flush();
@@ -182,6 +187,17 @@ export function App({ storage, systemLocale = navigator.language, notifier: noti
     setItems(store.add(await provider.details(tmdbId)));
     setSelected(tmdbId);
     setAdding(false);
+  }
+  /** Scan flows: add movies as owned (new ones are fetched first). Returns how many were added or updated. */
+  async function addOwned(tmdbIds: number[], format: OwnedFormat): Promise<number> {
+    let count = 0;
+    for (const id of tmdbIds) {
+      if (!store.list().some((i) => i.movie.tmdbId === id)) store.add(await provider.details(id));
+      store.update(id, { owned: true, format });
+      count++;
+    }
+    setItems(store.list());
+    return count;
   }
   const applyPreset = (p: Preset) => {
     setShowSettings(false);
@@ -319,6 +335,10 @@ export function App({ storage, systemLocale = navigator.language, notifier: noti
             demo={demo}
             inLibrary={new Set(items.map((i) => i.movie.tmdbId))}
             onAdd={add}
+            onAddOwned={addOwned}
+            storage={storage}
+            lookup={lookupProp}
+            ocr={ocrProp}
             onClose={() => setAdding(false)}
           />
         )}
