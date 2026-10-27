@@ -21,6 +21,17 @@ jobs:
       - uses: actions/upload-artifact@v4
         with: { name: screenshots, path: screenshots/*.png }
 
+  finna-live:
+    name: Finna API contract (live, non-blocking)
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm }
+      - run: npm ci
+      - run: LIVE=1 npx vitest run tests/live
+
   mac-app:
     name: Build macOS app
     runs-on: macos-14

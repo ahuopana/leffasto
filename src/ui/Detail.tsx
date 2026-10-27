@@ -4,6 +4,7 @@ import type { LibraryItem, OwnedFormat, Settings, UserEntry } from "../domain/ty
 import { useI18n } from "../i18n";
 import type { MessageKey } from "../i18n";
 import { Poster } from "./Poster";
+import { openExternal } from "../services/http";
 import { LoanSection } from "./LoanSection";
 import { Stars } from "./Stars";
 
@@ -52,6 +53,12 @@ export function Detail({ item, settings, locations, defaultLocationName, people,
           .join(" · ")}
       </p>
       {movie.directors.length > 0 && <p>{t("detail.directedBy", { names: movie.directors.join(", ") })}</p>}
+      {movie.cast.length > 0 && <p className="small">{t("detail.cast", { names: movie.cast.slice(0, 6).join(", ") })}</p>}
+      {movie.elonetUrl && (
+        <p className="small">
+          <a href={movie.elonetUrl} onClick={(e) => { e.preventDefault(); void openExternal(movie.elonetUrl!); }}>{t("detail.openElonet")} ↗</a>
+        </p>
+      )}
       <p className="overview">{overview ?? t("detail.noOverview")}</p>
 
       <div className="toggles">

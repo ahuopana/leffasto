@@ -1,0 +1,342 @@
+{
+ "resultCount": 1,
+ "records": [
+  {
+   "id": "kavi.elonet_elokuva_1570376",
+   "title": "Toivon tuolla puolen",
+   "year": "2017",
+   "alternativeTitles": [
+    "Ljus i natten (ruotsinkielinen nimi)",
+    "The Other Side of Hope (englanninkielinen nimi)",
+    "Die Andere Seite der Hoffnung (saksankielinen nimi)",
+    "L'Autre côté de l'espoir (ranskankielinen nimi)",
+    "L'Altro volto della speranza (italiankielinen nimi)",
+    "El Otro lado de la esperanza (espanjankielinen nimi)",
+    "Pakolainen (työnimi)"
+   ],
+   "formats": [
+    {
+     "value": "0/Video/",
+     "translated": "Video"
+    },
+    {
+     "value": "1/Video/Feature/",
+     "translated": "Elokuva, pitkä"
+    }
+   ],
+   "genres": [
+    "draama",
+    "komedia",
+    "yhteiskunnallinen elokuva",
+    "fiktio"
+   ],
+   "summary": [
+    "Aki Kaurismäen elokuva <i>Toivon tuolla puolen</i> (2017) on ns. satamakaupunkitrilogian toinen osa ja kertoo kahden miehen tarinaa. Syyrialainen pakolainen Khaled (Sherwan Haji) on joutunut Suomeen ja anoo turvapaikkaa, joka häneltä kuitenkin evätään. Hän jää laittomasti maahan. Wikström (Sakari Kuosmanen) on miesten paitoja edustava kauppamatkustaja, joka luopuu ammatistaan ja tienaa pokerinpeluulla sen verran rahaa, että voi ostaa vaatimattoman ravintolan helsinkiläiseltä syrjäkadulta. Kohdatessaan Khaledin piileskelemässä kapakan pihalla Wikström palkkaa tämän siivoojaksi. Asiat näyttävät sujuvan, mutta Khaledin pitää vielä löytää pakomatkalla kadottamansa sisar."
+   ],
+   "nonPresenterAuthors": [
+    {
+     "tag": "elotekija",
+     "name": "Aki Kaurismäki",
+     "role": "drt",
+     "id": "elonet_henkilo_100250",
+     "type": "elonet_henkilo",
+     "idx": 1,
+     "tehtava": "ohjaus",
+     "finna-activity-code": "D02",
+     "relator": "D02",
+     "elokuva-elotekija-nimityyppi": "henkilön nimi"
+    },
+    {
+     "tag": "elotekija",
+     "name": "Aki Kaurismäki",
+     "role": "aus",
+     "id": "elonet_henkilo_100250",
+     "type": "elonet_henkilo",
+     "idx": 20000,
+     "tehtava": "käsikirjoitus",
+     "finna-activity-code": "aus",
+     "relator": "aus",
+     "elokuva-elotekija-nimityyppi": "henkilön nimi"
+    },
+    {
+     "tag": "elotekija",
+     "name": "Aki Kaurismäki",
+     "role": "fmp",
+     "id": "elonet_henkilo_100250",
+     "type": "elonet_henkilo",
+     "idx": 30000,
+     "tehtava": "tuottaja",
+     "finna-activity-code": "fmp",
+     "relator": "fmp",
+     "elokuva-elotekija-nimityyppi": "henkilön nimi"
+    },
+    {
+     "tag": "elotekija",
+     "name": "Timo Salminen",
+     "role": "cng",
+     "id": "elonet_henkilo_100251",
+     "type": "elonet_henkilo",
+     "idx": 40000,
+     "tehtava": "kuvaus",
+     "finna-activity-code": "cng",
+     "relator": "cng",
+     "elokuva-elotekija-nimityyppi": "henkilön nimi"
+    },
+    {
+     "tag": "elotekija",
+     "name": "Samu Heikkilä",
+     "role": "flm",
+     "id": "elonet_henkilo_161698",
+     "type": "elonet_henkilo",
+     "idx": 50000,
+     "tehtava": "leikkaus",
+     "finna-activity-code": "flm",
+     "relator": "flm",
+     "elokuva-elotekija-nimityyppi": "henkilön nimi"
+    },
+    {
+     "tag": "elotekija",
+     "name": "Tero Malmberg",
+     "role": "sds",
+     "id": "elonet_henkilo_100539",
+     "type": "elonet_henkilo",
+     "idx": 60000,
+     "tehtava": "äänisuunnittelu",
+     "finna-activity-code": "sds",
+     "relator": "sds",
+     "elokuva-elotekija-nimityyppi": "henkilön nimi"
+    },
+    {
+     "tag": "elotekija",
+     "name": "Ville Grönroos",
+     "role": "std",
+     "id": "elonet_henkilo_1478504",
+     "type": "elonet_henkilo",
+     "idx": 70000,
+     "tehtava": "lavastus",
+     "finna-activity-code": "std",
+     "relator": "std",
+     "elokuva-elotekija-nimityyppi": "henkilön nimi"
+    }
+   ],
+   "presenters": {
+    "credited": {
+     "presenters": [
+      {
+       "tag": "elonayttelija",
+       "name": "Sherwan Haji",
+       "id": "elonet_henkilo_1505248",
+       "type": "elonet_henkilo",
+       "roleName": "Khaled Ali",
+       "idx": 630000,
+       "finna-activity-code": "E01",
+       "relator": "E01",
+       "elokuva-elonayttelija-nimityyppi": "henkilön nimi",
+       "elokuva-elonayttelija-rooli": "Khaled Ali"
+      },
+      {
+       "tag": "elonayttelija",
+       "name": "Sakari Kuosmanen",
+       "id": "elonet_henkilo_713014",
+       "type": "elonet_henkilo",
+       "roleName": "Waldemar Wikström",
+       "idx": 640000,
+       "finna-activity-code": "E01",
+       "relator": "E01",
+       "elokuva-elonayttelija-nimityyppi": "henkilön nimi",
+       "elokuva-elonayttelija-rooli": "Waldemar Wikström"
+      },
+      {
+       "tag": "elonayttelija",
+       "name": "Kaija Pakarinen",
+       "id": "elonet_henkilo_223614",
+       "type": "elonet_henkilo",
+       "roleName": "vaimo",
+       "idx": 650000,
+       "finna-activity-code": "E01",
+       "relator": "E01",
+       "elokuva-elonayttelija-nimityyppi": "henkilön nimi",
+       "elokuva-elonayttelija-rooli": "vaimo"
+      },
+      {
+       "tag": "elonayttelija",
+       "name": "Janne Hyytiäinen",
+       "id": "elonet_henkilo_885806",
+       "type": "elonet_henkilo",
+       "roleName": "Nyrhinen",
+       "idx": 660000,
+       "finna-activity-code": "E01",
+       "relator": "E01",
+       "elokuva-elonayttelija-nimityyppi": "henkilön nimi",
+       "elokuva-elonayttelija-rooli": "Nyrhinen"
+      },
+      {
+       "tag": "elonayttelija",
+       "name": "Ilkka Koivula",
+       "id": "elonet_henkilo_232775",
+       "type": "elonet_henkilo",
+       "roleName": "Calamnius",
+       "idx": 670000,
+       "finna-activity-code": "E01",
+       "relator": "E01",
+       "elokuva-elonayttelija-nimityyppi": "henkilön nimi",
+       "elokuva-elonayttelija-rooli": "Calamnius"
+      },
+      {
+       "tag": "elonayttelija",
+       "name": "Nuppu Koivu",
+       "id": "elonet_henkilo_1476715",
+       "type": "elonet_henkilo",
+       "roleName": "Mirja Kolehmainen",
+       "idx": 680000,
+       "finna-activity-code": "E01",
+       "relator": "E01",
+       "elokuva-elonayttelija-nimityyppi": "henkilön nimi",
+       "elokuva-elonayttelija-rooli": "Mirja Kolehmainen"
+      },
+      {
+       "tag": "elonayttelija",
+       "name": "Simon Hussein Al-Bazoon",
+       "id": "elonet_henkilo_1530318",
+       "type": "elonet_henkilo",
+       "roleName": "Mazdak",
+       "idx": 690000,
+       "finna-activity-code": "E01",
+       "relator": "E01",
+       "elokuva-elonayttelija-nimityyppi": "henkilön nimi",
+       "elokuva-elonayttelija-rooli": "Mazdak"
+      },
+      {
+       "tag": "elonayttelija",
+       "name": "Niroz Haji",
+       "id": "elonet_henkilo_1530317",
+       "type": "elonet_henkilo",
+       "roleName": "Miriam",
+       "idx": 700000,
+       "finna-activity-code": "E01",
+       "relator": "E01",
+       "elokuva-elonayttelija-nimityyppi": "henkilön nimi",
+       "elokuva-elonayttelija-rooli": "Miriam"
+      }
+     ]
+    },
+    "actingEnsemble": {
+     "presenters": [
+      {
+       "tag": "elonayttelijakokoonpano",
+       "name": "Dumari ja Spuget",
+       "role": "bändi",
+       "id": "elonet_kokoonpano_1482778",
+       "type": "elonet_kokoonpano",
+       "idx": 1410000,
+       "tehtava": "bändi",
+       "finna-activity-code": "A99",
+       "finna-activity-text": "bändi",
+       "elokuva-elonayttelijakokoonpano-tehtava": "bändi",
+       "relator": "A99"
+      },
+      {
+       "tag": "elonayttelijakokoonpano",
+       "name": "Poutahaukat",
+       "role": "tanssiorkesteri",
+       "id": "elonet_kokoonpano_1482779",
+       "type": "elonet_kokoonpano",
+       "idx": 1420000,
+       "tehtava": "tanssiorkesteri",
+       "finna-activity-code": "A99",
+       "finna-activity-text": "tanssiorkesteri",
+       "elokuva-elonayttelijakokoonpano-tehtava": "tanssiorkesteri",
+       "relator": "A99"
+      }
+     ]
+    },
+    "uncredited": {
+     "presenters": [
+      {
+       "tag": "elokreditoimatonnayttelija",
+       "name": "Sami Muttilainen",
+       "id": "elonet_henkilo_1489163",
+       "type": "elonet_henkilo",
+       "roleName": "mies poliisiasemalla",
+       "uncredited": 1,
+       "idx": 1550000,
+       "finna-activity-code": "E01",
+       "finna-activity-text": "kreditoimatonnäyttelijä",
+       "relator": "E01",
+       "elokuva-elokreditoimatonnayttelija-nimi": "Sami Muttilainen",
+       "elokuva-elokreditoimatonnayttelija-rooli": "mies poliisiasemalla"
+      },
+      {
+       "tag": "elokreditoimatonnayttelija",
+       "name": "Juho Kuosmanen",
+       "id": "elonet_henkilo_1202893",
+       "type": "elonet_henkilo",
+       "roleName": "matkustaja linja-autossa",
+       "uncredited": 1,
+       "idx": 1560000,
+       "finna-activity-code": "E01",
+       "finna-activity-text": "kreditoimatonnäyttelijä",
+       "relator": "E01",
+       "elokuva-elokreditoimatonnayttelija-nimi": "Juho Kuosmanen",
+       "elokuva-elokreditoimatonnayttelija-rooli": "matkustaja linja-autossa"
+      },
+      {
+       "tag": "elokreditoimatonnayttelija",
+       "name": "Tanja Talaskivi",
+       "id": "elonet_henkilo_263124",
+       "type": "elonet_henkilo",
+       "roleName": "nainen ravintolassa",
+       "uncredited": 1,
+       "idx": 1570000,
+       "finna-activity-code": "E01",
+       "finna-activity-text": "kreditoimatonnäyttelijä",
+       "relator": "E01",
+       "elokuva-elokreditoimatonnayttelija-nimi": "Tanja Talaskivi",
+       "elokuva-elokreditoimatonnayttelija-rooli": "nainen ravintolassa"
+      }
+     ]
+    },
+    "other": {
+     "presenters": [
+      {
+       "tag": "muutesiintyjat",
+       "name": "Vastaanottokeskuksen vahtikoira: Ilmi<br />Koira-Koistinen: Varpu",
+       "role": "muutesiintyjät",
+       "idx": 1580000,
+       "finna-activity-code": "E99",
+       "finna-activity-text": "muutesiintyjät",
+       "relator": "E99"
+      }
+     ]
+    }
+   },
+   "languages": [],
+   "subjects": [
+    [
+     "alkoholinkäyttö"
+    ],
+    [
+     "arabian kieli"
+    ],
+    [
+     "asunnottomuus"
+    ],
+    [
+     "auttaminen"
+    ],
+    [
+     "Helsinki"
+    ],
+    [
+     "ihmissalakuljetus"
+    ]
+   ],
+   "images": [
+    "/Cover/Show?source=Solr&id=kavi.elonet_elokuva_1570376&index=0&size=large",
+    "/Cover/Show?source=Solr&id=kavi.elonet_elokuva_1570376&index=1&size=large"
+   ],
+   "recordPage": "/Record/kavi.elonet_elokuva_1570376"
+  }
+ ],
+ "status": "OK"
+}

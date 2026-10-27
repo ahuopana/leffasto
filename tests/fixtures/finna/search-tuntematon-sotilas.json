@@ -1,0 +1,101 @@
+{
+ "resultCount": 4,
+ "records": [
+  {
+   "id": "kavi.elonet_elokuva_113528",
+   "title": "Tuntematon sotilas",
+   "year": "1955",
+   "alternativeTitles": [
+    "Okänd soldat (ruotsinkielinen nimi)",
+    "Okänd soldat (ruotsinkielinen nimi Ruotsissa)",
+    "The Unknown Soldier (englanninkielinen nimi)",
+    "Le Soldat inconnu (ranskankielinen nimi)",
+    "Der Unbekannte Soldat (saksankielinen nimi)",
+    "Trommelfeuer über Karelien (saksankielinen nimi Sveitsissä)",
+    "El Soldato desconocido (espanjankielinen nimi)",
+    "De Onbekende soldaat (hollanninkielinen nimi)",
+    "Il Soldato sconosciuto (italiankielinen nimi)",
+    "Ukjent soldat (norjankielinen nimi)",
+    "O Soldodo desconhecido (portugalinkielinen nimi)",
+    "Den Ukendte soldat (tanskankielinen nimi)",
+    "Neznámý voják (tšekinkielinen nimi)"
+   ],
+   "formats": [
+    {
+     "value": "0/Video/",
+     "translated": "Video"
+    },
+    {
+     "value": "1/Video/Feature/",
+     "translated": "Elokuva, pitkä"
+    }
+   ]
+  },
+  {
+   "id": "kavi.elonet_elokuva_1563440",
+   "title": "Tuntematon sotilas",
+   "year": "2017",
+   "alternativeTitles": [
+    "Okänd soldat (ruotsinkielinen nimi)",
+    "The Unknown Soldier (englanninkielinen nimi)",
+    "Óþekkti hermaðurinn (islanninkielinen nimi)",
+    "Tundmatu sõdur (vironkielinen nimi)",
+    "Sotaelokuva (työnimi)"
+   ],
+   "formats": [
+    {
+     "value": "0/Video/",
+     "translated": "Video"
+    },
+    {
+     "value": "1/Video/Feature/",
+     "translated": "Elokuva, pitkä"
+    }
+   ]
+  },
+  {
+   "id": "kavi.elonet_elokuva_110974",
+   "title": "Tuntematon sotilas",
+   "year": "1985",
+   "alternativeTitles": [
+    "Okänd soldat (ruotsinkielinen nimi)",
+    "Okänd soldat (ruotsinkielinen nimi Ruotsissa)",
+    "The Unknown soldier (englanninkielinen nimi)",
+    "Le Soldat inconnu (ranskankielinen nimi)",
+    "Der Unbekannte Soldat (saksankielinen nimi)",
+    "Ukjent soldat (norjankielinen nimi)",
+    "Soldats inconnus (ranskankielinen nimi)"
+   ],
+   "formats": [
+    {
+     "value": "0/Video/",
+     "translated": "Video"
+    },
+    {
+     "value": "1/Video/Feature/",
+     "translated": "Elokuva, pitkä"
+    }
+   ]
+  },
+  {
+   "id": "kavi.elonet_elokuva_159425",
+   "title": "Vääpeli Körmy – taisteluni",
+   "year": "1994",
+   "alternativeTitles": [
+    "Vääpeli Körmy – min kampp (ruotsinkielinen nimi)",
+    "Vääpeli Körmy ja tuntemattomat sotilaat (työnimi)"
+   ],
+   "formats": [
+    {
+     "value": "0/Video/",
+     "translated": "Video"
+    },
+    {
+     "value": "1/Video/Feature/",
+     "translated": "Elokuva, pitkä"
+    }
+   ]
+  }
+ ],
+ "status": "OK"
+}

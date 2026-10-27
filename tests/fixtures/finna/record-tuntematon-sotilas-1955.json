@@ -1,0 +1,639 @@
+{
+ "resultCount": 1,
+ "records": [
+  {
+   "id": "kavi.elonet_elokuva_113528",
+   "title": "Tuntematon sotilas",
+   "year": "1955",
+   "alternativeTitles": [
+    "Okänd soldat (ruotsinkielinen nimi)",
+    "Okänd soldat (ruotsinkielinen nimi Ruotsissa)",
+    "The Unknown Soldier (englanninkielinen nimi)",
+    "Le Soldat inconnu (ranskankielinen nimi)",
+    "Der Unbekannte Soldat (saksankielinen nimi)",
+    "Trommelfeuer über Karelien (saksankielinen nimi Sveitsissä)",
+    "El Soldato desconocido (espanjankielinen nimi)",
+    "De Onbekende soldaat (hollanninkielinen nimi)",
+    "Il Soldato sconosciuto (italiankielinen nimi)",
+    "Ukjent soldat (norjankielinen nimi)",
+    "O Soldodo desconhecido (portugalinkielinen nimi)",
+    "Den Ukendte soldat (tanskankielinen nimi)",
+    "Neznámý voják (tšekinkielinen nimi)"
+   ],
+   "formats": [
+    {
+     "value": "0/Video/",
+     "translated": "Video"
+    },
+    {
+     "value": "1/Video/Feature/",
+     "translated": "Elokuva, pitkä"
+    }
+   ],
+   "genres": [
+    "draama",
+    "sotaelokuva",
+    "historiallinen elokuva",
+    "fiktio"
+   ],
+   "summary": [
+    "Edvin Laineen ohjaama, Väinö Linnan romaanin pohjautuva sotaelokuva <i>Tuntematon sotilas</i> (1955) seuraa kuvitteellisen konekiväärikomppanian vaiheita jatkosodan vuosina 1941–1944. Sotaa tarkastellaan yksilöiden näkökulmasta, mutta elokuvan päähahmona toimii muuttuva joukko suomalaisia rivisotilaita."
+   ],
+   "nonPresenterAuthors": [
+    {
+     "tag": "elotekija",
+     "name": "Edvin Laine",
+     "role": "drt",
+     "id": "elonet_henkilo_100002",
+     "type": "elonet_henkilo",
+     "idx": 1,
+     "tehtava": "ohjaus",
+     "finna-activity-code": "D02",
+     "relator": "D02",
+     "elokuva-elotekija-nimityyppi": "henkilön nimi"
+    },
+    {
+     "tag": "elotekija",
+     "name": "T. J. Särkkä",
+     "role": "tuotannonjohto",
+     "id": "elonet_henkilo_713127",
+     "type": "elonet_henkilo",
+     "idx": 20000,
+     "tehtava": "tuotannonjohto",
+     "finna-activity-code": "A99",
+     "finna-activity-text": "tuotannonjohto",
+     "elokuva-elotekija-tehtava": "tuotannonjohto",
+     "relator": "A99",
+     "elokuva-elotekija-nimityyppi": "henkilön nimi"
+    },
+    {
+     "tag": "elotekija",
+     "name": "Juha Nevalainen",
+     "role": "elokuvakäsikirjoitus",
+     "id": "elonet_henkilo_100178",
+     "type": "elonet_henkilo",
+     "idx": 30000,
+     "tehtava": "elokuvakäsikirjoitus",
+     "finna-activity-code": "A99",
+     "finna-activity-text": "elokuvakäsikirjoitus",
+     "elokuva-elotekija-tehtava": "elokuvakäsikirjoitus",
+     "relator": "A99",
+     "elokuva-elotekija-nimityyppi": "henkilön nimi"
+    },
+    {
+     "tag": "elotekija",
+     "name": "Pentti Unho",
+     "role": "cng",
+     "id": "elonet_henkilo_101609",
+     "type": "elonet_henkilo",
+     "idx": 40000,
+     "tehtava": "kuvaus",
+     "finna-activity-code": "cng",
+     "relator": "cng",
+     "elokuva-elotekija-nimityyppi": "henkilön nimi"
+    },
+    {
+     "tag": "elotekija",
+     "name": "Osmo Harkimo",
+     "role": "cng",
+     "id": "elonet_henkilo_100004",
+     "type": "elonet_henkilo",
+     "idx": 50000,
+     "tehtava": "kuvaus",
+     "finna-activity-code": "cng",
+     "relator": "cng",
+     "elokuva-elotekija-nimityyppi": "henkilön nimi"
+    },
+    {
+     "tag": "elotekija",
+     "name": "Olavi Tuomi",
+     "role": "cng",
+     "id": "elonet_henkilo_100181",
+     "type": "elonet_henkilo",
+     "idx": 60000,
+     "tehtava": "kuvaus",
+     "finna-activity-code": "cng",
+     "relator": "cng",
+     "elokuva-elotekija-nimityyppi": "henkilön nimi"
+    },
+    {
+     "tag": "elotekija",
+     "name": "Antero Ruuhonen",
+     "role": "cng",
+     "id": "elonet_henkilo_113529",
+     "type": "elonet_henkilo",
+     "idx": 70000,
+     "tehtava": "kuvaus",
+     "finna-activity-code": "cng",
+     "relator": "cng",
+     "elokuva-elotekija-nimityyppi": "henkilön nimi"
+    }
+   ],
+   "presenters": {
+    "credited": {
+     "presenters": [
+      {
+       "tag": "elonayttelija",
+       "name": "Kosti Klemelä",
+       "id": "elonet_henkilo_229234",
+       "type": "elonet_henkilo",
+       "roleName": "Koskela, ”Ville”",
+       "idx": 260000,
+       "finna-activity-code": "E01",
+       "relator": "E01",
+       "elokuva-elonayttelija-nimityyppi": "henkilön nimi",
+       "elokuva-elonayttelija-rooli": "Koskela, ”Ville”"
+      },
+      {
+       "tag": "elonayttelija",
+       "name": "Heikki Savolainen",
+       "id": "elonet_henkilo_161566",
+       "type": "elonet_henkilo",
+       "roleName": "Urho Hietanen",
+       "idx": 270000,
+       "finna-activity-code": "E01",
+       "relator": "E01",
+       "elokuva-elonayttelija-nimityyppi": "henkilön nimi",
+       "elokuva-elonayttelija-rooli": "Urho Hietanen"
+      },
+      {
+       "tag": "elonayttelija",
+       "name": "Reino Tolvanen",
+       "id": "elonet_henkilo_229235",
+       "type": "elonet_henkilo",
+       "roleName": "Antero Rokka, ”Antti”",
+       "idx": 280000,
+       "finna-activity-code": "E01",
+       "relator": "E01",
+       "elokuva-elonayttelija-nimityyppi": "henkilön nimi",
+       "elokuva-elonayttelija-rooli": "Antero Rokka, ”Antti”"
+      },
+      {
+       "tag": "elonayttelija",
+       "name": "Veikko Sinisalo",
+       "id": "elonet_henkilo_229236",
+       "type": "elonet_henkilo",
+       "roleName": "Yrjö Lahtinen",
+       "idx": 290000,
+       "finna-activity-code": "E01",
+       "relator": "E01",
+       "elokuva-elonayttelija-nimityyppi": "henkilön nimi",
+       "elokuva-elonayttelija-rooli": "Yrjö Lahtinen"
+      },
+      {
+       "tag": "elonayttelija",
+       "name": "Åke Lindman",
+       "id": "elonet_henkilo_109655",
+       "type": "elonet_henkilo",
+       "roleName": "Lehto",
+       "idx": 300000,
+       "finna-activity-code": "E01",
+       "relator": "E01",
+       "elokuva-elonayttelija-nimityyppi": "henkilön nimi",
+       "elokuva-elonayttelija-rooli": "Lehto"
+      },
+      {
+       "tag": "elonayttelija",
+       "name": "Pentti Siimes",
+       "id": "elonet_henkilo_226117",
+       "type": "elonet_henkilo",
+       "roleName": "Määttä",
+       "idx": 310000,
+       "finna-activity-code": "E01",
+       "relator": "E01",
+       "elokuva-elonayttelija-nimityyppi": "henkilön nimi",
+       "elokuva-elonayttelija-rooli": "Määttä"
+      },
+      {
+       "tag": "elonayttelija",
+       "name": "Leo Riuttu",
+       "id": "elonet_henkilo_102918",
+       "type": "elonet_henkilo",
+       "roleName": "Vanhala",
+       "idx": 320000,
+       "finna-activity-code": "E01",
+       "relator": "E01",
+       "elokuva-elonayttelija-nimityyppi": "henkilön nimi",
+       "elokuva-elonayttelija-rooli": "Vanhala"
+      },
+      {
+       "tag": "elonayttelija",
+       "name": "Kaarlo Halttunen",
+       "id": "elonet_henkilo_106942",
+       "type": "elonet_henkilo",
+       "roleName": "Rahikainen",
+       "idx": 330000,
+       "finna-activity-code": "E01",
+       "relator": "E01",
+       "elokuva-elonayttelija-nimityyppi": "henkilön nimi",
+       "elokuva-elonayttelija-rooli": "Rahikainen"
+      }
+     ]
+    },
+    "assistant": {
+     "presenters": [
+      {
+       "tag": "avustajat",
+       "name": "Noin 200 Viipurilaisen Osakunnan jäsentä",
+       "role": "avustajat",
+       "idx": 800000,
+       "finna-activity-code": "A99",
+       "finna-activity-text": "avustajat",
+       "elokuva-avustajat": "avustajat",
+       "relator": "A99"
+      },
+      {
+       "tag": "avustajat",
+       "name": "Robert Koskelainen, Kalevi Löfgren, Jorma Nerkko, Risto Hyrylä, Ville Laulainen, Martti Penttilä, Aulis Tynkkynen",
+       "role": "avustajat",
+       "idx": 810000,
+       "finna-activity-code": "A99",
+       "finna-activity-text": "avustajat",
+       "elokuva-avustajat": "avustajat",
+       "relator": "A99"
+      },
+      {
+       "tag": "avustajat",
+       "name": "Lauri Ilmari, Valle Rautio, Kari Rahkamo, Jorma Räisänen, Leevi Kantee, Eero I. Ikävalko",
+       "role": "avustajat",
+       "idx": 820000,
+       "finna-activity-code": "A99",
+       "finna-activity-text": "avustajat",
+       "elokuva-avustajat": "avustajat",
+       "relator": "A99"
+      },
+      {
+       "tag": "avustajat",
+       "name": "Jorma Tolvanen (sotilas lumihangessa)",
+       "role": "avustajat",
+       "idx": 830000,
+       "finna-activity-code": "A99",
+       "finna-activity-text": "avustajat",
+       "elokuva-avustajat": "avustajat",
+       "relator": "A99"
+      }
+     ]
+    },
+    "uncredited": {
+     "presenters": [
+      {
+       "tag": "elokreditoimatonnayttelija",
+       "name": "Jorma Kähkönen",
+       "id": "elonet_henkilo_1553842",
+       "type": "elonet_henkilo",
+       "roleName": "sotamies Ukkolan hautauskohtauksessa",
+       "uncredited": 1,
+       "idx": 1140000,
+       "finna-activity-code": "E01",
+       "finna-activity-text": "kreditoimatonnäyttelijä",
+       "relator": "E01",
+       "elokuva-elokreditoimatonnayttelija-nimi": "Jorma Kähkönen",
+       "elokuva-elokreditoimatonnayttelija-rooli": "sotamies Ukkolan hautauskohtauksessa"
+      },
+      {
+       "tag": "elokreditoimatonnayttelija",
+       "name": "Aarni Valtonen",
+       "id": "elonet_henkilo_1553843",
+       "type": "elonet_henkilo",
+       "roleName": "hymyilevä sotilas kanttiinijonossa, kuoleva suomalainen konekiväärillä tulittaja",
+       "uncredited": 1,
+       "idx": 1150000,
+       "finna-activity-code": "E01",
+       "finna-activity-text": "kreditoimatonnäyttelijä",
+       "relator": "E01",
+       "elokuva-elokreditoimatonnayttelija-nimi": "Aarni Valtonen",
+       "elokuva-elokreditoimatonnayttelija-rooli": "hymyilevä sotilas kanttiinijonossa, kuoleva suomalainen konekiväärillä tulittaja"
+      },
+      {
+       "tag": "elokreditoimatonnayttelija",
+       "name": "Sinikka Westman",
+       "id": "elonet_henkilo_975696",
+       "type": "elonet_henkilo",
+       "roleName": "toinen lotta kanttiinissa",
+       "uncredited": 1,
+       "idx": 1160000,
+       "finna-activity-code": "E01",
+       "finna-activity-text": "kreditoimatonnäyttelijä",
+       "relator": "E01",
+       "elokuva-elokreditoimatonnayttelija-nimi": "Sinikka Westman",
+       "elokuva-elokreditoimatonnayttelija-rooli": "toinen lotta kanttiinissa"
+      },
+      {
+       "tag": "elokreditoimatonnayttelija",
+       "name": "Martti Kuningas",
+       "id": "elonet_henkilo_231121",
+       "type": "elonet_henkilo",
+       "roleName": "sotamies Lehdon ryhmässä",
+       "uncredited": 1,
+       "idx": 1170000,
+       "finna-activity-code": "E01",
+       "finna-activity-text": "kreditoimatonnäyttelijä",
+       "relator": "E01",
+       "elokuva-elokreditoimatonnayttelija-nimi": "Martti Kuningas",
+       "elokuva-elokreditoimatonnayttelija-rooli": "sotamies Lehdon ryhmässä"
+      },
+      {
+       "tag": "elokreditoimatonnayttelija",
+       "name": "Pertti Seppälä",
+       "id": "elonet_henkilo_115800",
+       "type": "elonet_henkilo",
+       "roleName": "poika teltassa",
+       "uncredited": 1,
+       "idx": 1180000,
+       "finna-activity-code": "E01",
+       "finna-activity-text": "kreditoimatonnäyttelijä",
+       "relator": "E01",
+       "elokuva-elokreditoimatonnayttelija-nimi": "Pertti Seppälä",
+       "elokuva-elokreditoimatonnayttelija-rooli": "poika teltassa"
+      },
+      {
+       "tag": "elokreditoimatonnayttelija",
+       "name": "Sylvester Jokiaro",
+       "id": "elonet_henkilo_1515885",
+       "type": "elonet_henkilo",
+       "roleName": "suomalaisia tulittava venäläinen konekivääriampuja",
+       "uncredited": 1,
+       "idx": 1190000,
+       "finna-activity-code": "E01",
+       "finna-activity-text": "kreditoimatonnäyttelijä",
+       "relator": "E01",
+       "elokuva-elokreditoimatonnayttelija-nimi": "Sylvester Jokiaro",
+       "elokuva-elokreditoimatonnayttelija-rooli": "suomalaisia tulittava venäläinen konekivääriampuja"
+      },
+      {
+       "tag": "elokreditoimatonnayttelija",
+       "name": "Seppo Sännälä",
+       "id": "elonet_henkilo_1010799",
+       "type": "elonet_henkilo",
+       "roleName": "Rokan ampuma neuvostosotilas",
+       "uncredited": 1,
+       "idx": 1200000,
+       "finna-activity-code": "E01",
+       "finna-activity-text": "kreditoimatonnäyttelijä",
+       "relator": "E01",
+       "elokuva-elokreditoimatonnayttelija-nimi": "Seppo Sännälä",
+       "elokuva-elokreditoimatonnayttelija-rooli": "Rokan ampuma neuvostosotilas"
+      },
+      {
+       "tag": "elokreditoimatonnayttelija",
+       "name": "Tauno Auvinen",
+       "id": "elonet_henkilo_1550488",
+       "type": "elonet_henkilo",
+       "roleName": "sotamies Sinkkosen käskynannossa",
+       "uncredited": 1,
+       "idx": 1210000,
+       "finna-activity-code": "E01",
+       "finna-activity-text": "kreditoimatonnäyttelijä",
+       "relator": "E01",
+       "elokuva-elokreditoimatonnayttelija-nimi": "Tauno Auvinen",
+       "elokuva-elokreditoimatonnayttelija-rooli": "sotamies Sinkkosen käskynannossa"
+      },
+      {
+       "tag": "elokreditoimatonnayttelija",
+       "name": "Pertti Åkerberg",
+       "id": "elonet_henkilo_250416",
+       "type": "elonet_henkilo",
+       "roleName": "pikkupoika Petroskoissa",
+       "uncredited": 1,
+       "idx": 1220000,
+       "finna-activity-code": "E01",
+       "finna-activity-text": "kreditoimatonnäyttelijä",
+       "relator": "E01",
+       "elokuva-elokreditoimatonnayttelija-nimi": "Pertti Åkerberg",
+       "elokuva-elokreditoimatonnayttelija-rooli": "pikkupoika Petroskoissa"
+      },
+      {
+       "tag": "elokreditoimatonnayttelija",
+       "name": "Leo Torkko",
+       "id": "elonet_henkilo_250353",
+       "type": "elonet_henkilo",
+       "roleName": "sotamies",
+       "uncredited": 1,
+       "idx": 1230000,
+       "finna-activity-code": "E01",
+       "finna-activity-text": "kreditoimatonnäyttelijä",
+       "relator": "E01",
+       "elokuva-elokreditoimatonnayttelija-nimi": "Leo Torkko",
+       "elokuva-elokreditoimatonnayttelija-rooli": "sotamies"
+      },
+      {
+       "tag": "elokreditoimatonnayttelija",
+       "name": "Heikki Heino",
+       "id": "elonet_henkilo_713231",
+       "type": "elonet_henkilo",
+       "roleName": "vänrikki",
+       "uncredited": 1,
+       "idx": 1240000,
+       "finna-activity-code": "E01",
+       "finna-activity-text": "kreditoimatonnäyttelijä",
+       "relator": "E01",
+       "elokuva-elokreditoimatonnayttelija-nimi": "Heikki Heino",
+       "elokuva-elokreditoimatonnayttelija-rooli": "vänrikki"
+      },
+      {
+       "tag": "elokreditoimatonnayttelija",
+       "name": "Martti Tschokkinen",
+       "id": "elonet_henkilo_249124",
+       "type": "elonet_henkilo",
+       "roleName": "sotamies karjalaisessa tuvassa",
+       "uncredited": 1,
+       "idx": 1250000,
+       "finna-activity-code": "E01",
+       "finna-activity-text": "kreditoimatonnäyttelijä",
+       "relator": "E01",
+       "elokuva-elokreditoimatonnayttelija-nimi": "Martti Tschokkinen",
+       "elokuva-elokreditoimatonnayttelija-rooli": "sotamies karjalaisessa tuvassa"
+      },
+      {
+       "tag": "elokreditoimatonnayttelija",
+       "name": "Aarre Koivisto",
+       "id": "elonet_henkilo_100007",
+       "type": "elonet_henkilo",
+       "roleName": "täydennysmies",
+       "uncredited": 1,
+       "idx": 1260000,
+       "finna-activity-code": "E01",
+       "finna-activity-text": "kreditoimatonnäyttelijä",
+       "relator": "E01",
+       "elokuva-elokreditoimatonnayttelija-nimi": "Aarre Koivisto",
+       "elokuva-elokreditoimatonnayttelija-rooli": "täydennysmies"
+      },
+      {
+       "tag": "elokreditoimatonnayttelija",
+       "name": "Arvi Järvinen",
+       "id": "elonet_henkilo_249086",
+       "type": "elonet_henkilo",
+       "roleName": "täydennysmies",
+       "uncredited": 1,
+       "idx": 1270000,
+       "finna-activity-code": "E01",
+       "finna-activity-text": "kreditoimatonnäyttelijä",
+       "relator": "E01",
+       "elokuva-elokreditoimatonnayttelija-nimi": "Arvi Järvinen",
+       "elokuva-elokreditoimatonnayttelija-rooli": "täydennysmies"
+      },
+      {
+       "tag": "elokreditoimatonnayttelija",
+       "name": "Seppo Marjamäki",
+       "id": "elonet_henkilo_1533870",
+       "type": "elonet_henkilo",
+       "roleName": "Rokan paarin kantaja",
+       "uncredited": 1,
+       "idx": 1280000,
+       "finna-activity-code": "E01",
+       "finna-activity-text": "kreditoimatonnäyttelijä",
+       "relator": "E01",
+       "elokuva-elokreditoimatonnayttelija-nimi": "Seppo Marjamäki",
+       "elokuva-elokreditoimatonnayttelija-rooli": "Rokan paarin kantaja"
+      },
+      {
+       "tag": "elokreditoimatonnayttelija",
+       "name": "Tapio Marjamäki",
+       "id": "elonet_henkilo_1553888",
+       "type": "elonet_henkilo",
+       "roleName": "Rokan paarin kantaja",
+       "uncredited": 1,
+       "idx": 1290000,
+       "finna-activity-code": "E01",
+       "finna-activity-text": "kreditoimatonnäyttelijä",
+       "relator": "E01",
+       "elokuva-elokreditoimatonnayttelija-nimi": "Tapio Marjamäki",
+       "elokuva-elokreditoimatonnayttelija-rooli": "Rokan paarin kantaja"
+      },
+      {
+       "tag": "elokreditoimatonnayttelija",
+       "name": "herra Leikas",
+       "id": "elonet_henkilo_1553889",
+       "type": "elonet_henkilo",
+       "roleName": "tunnistamaton rooli",
+       "uncredited": 1,
+       "idx": 1300000,
+       "finna-activity-code": "E01",
+       "finna-activity-text": "kreditoimatonnäyttelijä",
+       "relator": "E01",
+       "elokuva-elokreditoimatonnayttelija-nimi": "herra Leikas",
+       "elokuva-elokreditoimatonnayttelija-rooli": "tunnistamaton rooli"
+      },
+      {
+       "tag": "elokreditoimatonnayttelija",
+       "name": "Oiva Bagge",
+       "id": "elonet_henkilo_1515883",
+       "type": "elonet_henkilo",
+       "roleName": "neuvostoliittolainen pommikoneen lentäjä",
+       "uncredited": 1,
+       "idx": 1310000,
+       "finna-activity-code": "E01",
+       "finna-activity-text": "kreditoimatonnäyttelijä",
+       "relator": "E01",
+       "elokuva-elokreditoimatonnayttelija-nimi": "Oiva Bagge",
+       "elokuva-elokreditoimatonnayttelija-rooli": "neuvostoliittolainen pommikoneen lentäjä"
+      },
+      {
+       "tag": "elokreditoimatonnayttelija",
+       "name": "Veikko Mård",
+       "id": "elonet_henkilo_109641",
+       "type": "elonet_henkilo",
+       "roleName": "sotilas",
+       "uncredited": 1,
+       "idx": 1320000,
+       "finna-activity-code": "E01",
+       "finna-activity-text": "kreditoimatonnäyttelijä",
+       "relator": "E01",
+       "elokuva-elokreditoimatonnayttelija-nimi": "Veikko Mård",
+       "elokuva-elokreditoimatonnayttelija-rooli": "sotilas"
+      },
+      {
+       "tag": "elokreditoimatonnayttelija",
+       "name": "Mauri Hellä",
+       "id": "elonet_henkilo_1571732",
+       "type": "elonet_henkilo",
+       "roleName": "vänrikki Kariluoto Paloaukean hartaushetkessä",
+       "description": "sijaisnäyttelijä",
+       "uncredited": 1,
+       "idx": 1330000,
+       "finna-activity-code": "E01",
+       "finna-activity-text": "kreditoimatonnäyttelijä",
+       "relator": "E01",
+       "elokuva-elokreditoimatonnayttelija-nimi": "Mauri Hellä",
+       "elokuva-elokreditoimatonnayttelija-rooli": "vänrikki Kariluoto Paloaukean hartaushetkessä",
+       "elokuva-elokreditoimatonnayttelija-selitys": "sijaisnäyttelijä"
+      }
+     ]
+    },
+    "other": {
+     "presenters": [
+      {
+       "tag": "muutesiintyjat",
+       "name": "Arkistoaineisto / esiintyjät: <br />presidentti Risto Ryti (puheääni radiossa 26.6.1941)",
+       "role": "muutesiintyjät",
+       "idx": 1370000,
+       "finna-activity-code": "E99",
+       "finna-activity-text": "muutesiintyjät",
+       "relator": "E99"
+      },
+      {
+       "tag": "muutesiintyjat",
+       "name": "Kreditoimattomia tunnistamattomia tekijöitä, sivuosien esittäjiä tai avustajia: Sirkka Breider, Eero Ikävalko, Leevi Kantee, Urho Lahti, Arvo Murtokallio, Hannu Nenonen, Juha Partanen, Rauno Penttinen, Viljo Voipio, Kai Öhman, K. Hovi, J. Koskelainen, M. Laaksonen, P. Luoma, T. Mechlin, H. Parkkonen, E. Pitkänen, L. Poutanen, A. Ranta, H. Salmi, J. Taskinen, R. Valkama",
+       "role": "muutesiintyjät",
+       "idx": 1380000,
+       "finna-activity-code": "E99",
+       "finna-activity-text": "muutesiintyjät",
+       "relator": "E99"
+      }
+     ]
+    }
+   },
+   "languages": [
+    "fin"
+   ],
+   "subjects": [
+    [
+     "alkoholinkäyttö"
+    ],
+    [
+     "filmatisointi"
+    ],
+    [
+     "armeijat"
+    ],
+    [
+     "ampuma-aseet"
+    ],
+    [
+     "hävittäjät (sotilaslentokoneet)"
+    ],
+    [
+     "jatkosota"
+    ]
+   ],
+   "urls": [
+    {
+     "url": "https://players.icareus.com/elonet/embed/vod/256256257",
+     "text": "elokuva",
+     "desc": "elokuva",
+     "source": "kavi",
+     "embed": "iframe",
+     "warnings": [
+      "age_rating_12",
+      "content_descriptor_violence",
+      "content_descriptor_anxiety"
+     ]
+    },
+    {
+     "url": "https://players.icareus.com/elonet/embed/vod/256256258",
+     "text": "traileri",
+     "desc": "traileri",
+     "source": "kavi",
+     "embed": "iframe",
+     "warnings": []
+    }
+   ],
+   "images": [
+    "/Cover/Show?source=Solr&id=kavi.elonet_elokuva_113528&index=0&size=large",
+    "/Cover/Show?source=Solr&id=kavi.elonet_elokuva_113528&index=1&size=large"
+   ],
+   "recordPage": "/Record/kavi.elonet_elokuva_113528"
+  }
+ ],
+ "status": "OK"
+}

@@ -5,8 +5,13 @@ export const POSTER_BASE = "https://image.tmdb.org/t/p/w342";
 
 type FetchFn = typeof fetch;
 
+export type ResultSource = "tmdb" | "elonet" | "both";
+
 export interface SearchResult {
+  /** TMDB id; Elonet-only films get a negative id (-numeric Elonet id), see elonetNumericId(). */
   tmdbId: number;
+  source?: ResultSource;
+  elonetId?: string;
   title: string;
   originalTitle: string;
   year?: number;

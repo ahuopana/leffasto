@@ -8,6 +8,7 @@
   "permissions": [
     "core:default",
     "notification:default",
+    "opener:default",
     {
       "identifier": "http:default",
       "allow": [
@@ -16,6 +17,9 @@
         },
         {
           "url": "https://api.themoviedb.org/*"
+        },
+        {
+          "url": "https://api.finna.fi/*"
         }
       ]
     }

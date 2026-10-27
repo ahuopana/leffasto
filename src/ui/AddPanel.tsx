@@ -23,6 +23,8 @@ interface Props {
   /** Adds movies as owned in the given format; resolves to how many were added. */
   onAddOwned: (tmdbIds: number[], format: OwnedFormat) => Promise<number>;
   storage: Storage;
+  /** Set when one metadata source failed but the other answered. */
+  sourceWarning?: "elonet" | "tmdb" | null;
   onClose: () => void;
   /** Injection points for tests. */
   lookup?: BarcodeLookup;
@@ -30,7 +32,7 @@ interface Props {
   initialTab?: Tab;
 }
 
-export function AddPanel({ provider, demo, inLibrary, onAdd, onAddOwned, storage, onClose, lookup, ocr, initialTab = "search" }: Props) {
+export function AddPanel({ provider, demo, inLibrary, onAdd, onAddOwned, storage, sourceWarning, onClose, lookup, ocr, initialTab = "search" }: Props) {
   const { t } = useI18n();
   const [tab, setTab] = useState<Tab>(initialTab);
   const [format, setFormat] = useState<OwnedFormat>("dvd");
@@ -72,6 +74,7 @@ export function AddPanel({ provider, demo, inLibrary, onAdd, onAddOwned, storage
           ))}
         </div>
         {demo && <p className="notice">{t("add.demoMode")}</p>}
+        {sourceWarning && <p className="notice" role="status">{t(sourceWarning === "elonet" ? "add.elonetUnavailable" : "add.tmdbUnavailable")}</p>}
         {notice && <p className="notice ok" role="status">{notice}</p>}
         {tab === "search" && <SearchTab provider={provider} inLibrary={inLibrary} onAdd={onAdd} />}
         {tab === "barcode" && <BarcodeTab onCode={(code) => { setNotice(null); return queue.addBarcode(code); }} />}
@@ -123,6 +126,7 @@ function SearchTab({ provider, inLibrary, onAdd }: { provider: MetadataProvider;
           <li key={r.tmdbId}>
             <div>
               <strong>{r.title}</strong> {r.year && <span className="muted">({r.year})</span>}
+              {r.source && <span className={`source-badge ${r.source}`}>{t(`add.source.${r.source}` as const)}</span>}
               {r.originalTitle !== r.title && <div className="muted small">{r.originalTitle}</div>}
             </div>
             {inLibrary.has(r.tmdbId) ? (

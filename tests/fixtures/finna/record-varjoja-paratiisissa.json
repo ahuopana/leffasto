@@ -1,0 +1,580 @@
+{
+ "resultCount": 1,
+ "records": [
+  {
+   "id": "kavi.elonet_elokuva_107252",
+   "title": "Varjoja paratiisissa",
+   "year": "1986",
+   "alternativeTitles": [
+    "Skuggor i paradiset (ruotsinkielinen nimi)",
+    "Shadows in Paradise (englanninkielinen nimi)",
+    "Ombres au paradis (ranskankielinen nimi)",
+    "Schatten im Paradies (saksankielinen nimi)",
+    "Sombras en el paraíso (espanjankielinen nimi)",
+    "Ombre in paradiso (italiankielinen nimi)",
+    "Sombras no paraíso (portugalinkielinen nimi)"
+   ],
+   "formats": [
+    {
+     "value": "0/Video/",
+     "translated": "Video"
+    },
+    {
+     "value": "1/Video/Feature/",
+     "translated": "Elokuva, pitkä"
+    }
+   ],
+   "genres": [
+    "draama",
+    "komedia",
+    "romanssi",
+    "fiktio"
+   ],
+   "summary": [],
+   "nonPresenterAuthors": [
+    {
+     "tag": "elotekija",
+     "name": "Aki Kaurismäki",
+     "role": "drt",
+     "id": "elonet_henkilo_100250",
+     "type": "elonet_henkilo",
+     "idx": 1,
+     "tehtava": "ohjaus",
+     "finna-activity-code": "D02",
+     "relator": "D02"
+    },
+    {
+     "tag": "elotekija",
+     "name": "Aki Kaurismäki",
+     "role": "aus",
+     "id": "elonet_henkilo_100250",
+     "type": "elonet_henkilo",
+     "idx": 20000,
+     "tehtava": "käsikirjoitus",
+     "finna-activity-code": "aus",
+     "relator": "aus"
+    },
+    {
+     "tag": "elotekija",
+     "name": "Mika Kaurismäki",
+     "role": "fmp",
+     "id": "elonet_henkilo_100249",
+     "type": "elonet_henkilo",
+     "idx": 30000,
+     "tehtava": "tuottaja",
+     "finna-activity-code": "fmp",
+     "relator": "fmp"
+    },
+    {
+     "tag": "elotekija",
+     "name": "Timo Salminen",
+     "role": "cng",
+     "id": "elonet_henkilo_100251",
+     "type": "elonet_henkilo",
+     "idx": 40000,
+     "tehtava": "kuvaus",
+     "finna-activity-code": "cng",
+     "relator": "cng"
+    },
+    {
+     "tag": "elotekija",
+     "name": "Raija Talvio",
+     "role": "flm",
+     "id": "elonet_henkilo_100400",
+     "type": "elonet_henkilo",
+     "idx": 50000,
+     "tehtava": "leikkaus",
+     "finna-activity-code": "flm",
+     "relator": "flm"
+    },
+    {
+     "tag": "elotekija",
+     "name": "Jouko Lumme",
+     "role": "rce",
+     "id": "elonet_henkilo_100272",
+     "type": "elonet_henkilo",
+     "idx": 60000,
+     "tehtava": "äänitys",
+     "finna-activity-code": "A99",
+     "finna-activity-text": "äänitys",
+     "elokuva-elotekija-tehtava": "äänitys",
+     "relator": "A99"
+    },
+    {
+     "tag": "elotekija",
+     "name": "Pertti Hilkamo",
+     "role": "std",
+     "id": "elonet_henkilo_100196",
+     "type": "elonet_henkilo",
+     "idx": 70000,
+     "tehtava": "lavastus",
+     "finna-activity-code": "std",
+     "relator": "std"
+    }
+   ],
+   "presenters": {
+    "credited": {
+     "presenters": [
+      {
+       "tag": "elonayttelija",
+       "name": "Matti Pellonpää",
+       "id": "elonet_henkilo_120608",
+       "type": "elonet_henkilo",
+       "roleName": "Nikander",
+       "idx": 260000,
+       "finna-activity-code": "E01",
+       "relator": "E01",
+       "elokuva-elonayttelija-rooli": "Nikander"
+      },
+      {
+       "tag": "elonayttelija",
+       "name": "Kati Outinen",
+       "id": "elonet_henkilo_225915",
+       "type": "elonet_henkilo",
+       "roleName": "Ilona Rajamäki",
+       "idx": 270000,
+       "finna-activity-code": "E01",
+       "relator": "E01",
+       "elokuva-elonayttelija-rooli": "Ilona Rajamäki"
+      },
+      {
+       "tag": "elonayttelija",
+       "name": "Sakari Kuosmanen",
+       "id": "elonet_henkilo_713014",
+       "type": "elonet_henkilo",
+       "roleName": "Melartin",
+       "idx": 280000,
+       "finna-activity-code": "E01",
+       "relator": "E01",
+       "elokuva-elonayttelija-rooli": "Melartin"
+      },
+      {
+       "tag": "elonayttelija",
+       "name": "Esko Nikkari",
+       "id": "elonet_henkilo_223243",
+       "type": "elonet_henkilo",
+       "roleName": "Nikanderin työtoveri",
+       "idx": 290000,
+       "finna-activity-code": "E01",
+       "relator": "E01",
+       "elokuva-elonayttelija-rooli": "Nikanderin työtoveri"
+      },
+      {
+       "tag": "elonayttelija",
+       "name": "Kylli Köngäs",
+       "id": "elonet_henkilo_226316",
+       "type": "elonet_henkilo",
+       "roleName": "Ilonan ystävätär",
+       "idx": 300000,
+       "finna-activity-code": "E01",
+       "relator": "E01",
+       "elokuva-elonayttelija-rooli": "Ilonan ystävätär"
+      },
+      {
+       "tag": "elonayttelija",
+       "name": "Pekka Laiho",
+       "id": "elonet_henkilo_129922",
+       "type": "elonet_henkilo",
+       "roleName": "Valintatalon myymälänhoitaja",
+       "idx": 310000,
+       "finna-activity-code": "E01",
+       "relator": "E01",
+       "elokuva-elonayttelija-rooli": "Valintatalon myymälänhoitaja"
+      },
+      {
+       "tag": "elonayttelija",
+       "name": "Jukka-Pekka Palo",
+       "id": "elonet_henkilo_224898",
+       "type": "elonet_henkilo",
+       "roleName": "kolmas mies, vaatetusliikkeen myymälänhoitaja",
+       "idx": 320000,
+       "finna-activity-code": "E01",
+       "relator": "E01",
+       "elokuva-elonayttelija-rooli": "kolmas mies, vaatetusliikkeen myymälänhoitaja"
+      },
+      {
+       "tag": "elonayttelija",
+       "name": "Svante Korkiakoski",
+       "id": "elonet_henkilo_249106",
+       "type": "elonet_henkilo",
+       "roleName": "poliisi",
+       "idx": 330000,
+       "finna-activity-code": "E01",
+       "relator": "E01",
+       "elokuva-elonayttelija-rooli": "poliisi"
+      }
+     ]
+    },
+    "actingEnsemble": {
+     "presenters": [
+      {
+       "tag": "elonayttelijakokoonpano",
+       "name": "Pentti Kosken trio",
+       "role": "yhtye ravintolassa",
+       "id": "elonet_kokoonpano_1481434",
+       "type": "elonet_kokoonpano",
+       "idx": 490000,
+       "tehtava": "yhtye ravintolassa",
+       "finna-activity-code": "A99",
+       "finna-activity-text": "yhtye ravintolassa",
+       "elokuva-elonayttelijakokoonpano-tehtava": "yhtye ravintolassa",
+       "relator": "A99"
+      }
+     ]
+    },
+    "uncredited": {
+     "presenters": [
+      {
+       "tag": "elokreditoimatonnayttelija",
+       "name": "Jari Ryttyläinen",
+       "id": "elonet_henkilo_1064299",
+       "type": "elonet_henkilo",
+       "roleName": "roskakuski",
+       "uncredited": 1,
+       "idx": 630000,
+       "finna-activity-code": "E01",
+       "finna-activity-text": "kreditoimatonnäyttelijä",
+       "relator": "E01",
+       "elokuva-elokreditoimatonnayttelija-nimi": "Jari Ryttyläinen",
+       "elokuva-elokreditoimatonnayttelija-rooli": "roskakuski"
+      },
+      {
+       "tag": "elokreditoimatonnayttelija",
+       "name": "Pauli Heiskanen",
+       "id": "elonet_henkilo_1064300",
+       "type": "elonet_henkilo",
+       "roleName": "roskakuski",
+       "uncredited": 1,
+       "idx": 640000,
+       "finna-activity-code": "E01",
+       "finna-activity-text": "kreditoimatonnäyttelijä",
+       "relator": "E01",
+       "elokuva-elokreditoimatonnayttelija-nimi": "Pauli Heiskanen",
+       "elokuva-elokreditoimatonnayttelija-rooli": "roskakuski"
+      },
+      {
+       "tag": "elokreditoimatonnayttelija",
+       "name": "Matti Fagerlund",
+       "id": "elonet_henkilo_1064301",
+       "type": "elonet_henkilo",
+       "roleName": "roskakuski",
+       "uncredited": 1,
+       "idx": 650000,
+       "finna-activity-code": "E01",
+       "finna-activity-text": "kreditoimatonnäyttelijä",
+       "relator": "E01",
+       "elokuva-elokreditoimatonnayttelija-nimi": "Matti Fagerlund",
+       "elokuva-elokreditoimatonnayttelija-rooli": "roskakuski"
+      },
+      {
+       "tag": "elokreditoimatonnayttelija",
+       "name": "Taisto Luukkonen",
+       "id": "elonet_henkilo_1064302",
+       "type": "elonet_henkilo",
+       "roleName": "roskakuski",
+       "uncredited": 1,
+       "idx": 660000,
+       "finna-activity-code": "E01",
+       "finna-activity-text": "kreditoimatonnäyttelijä",
+       "relator": "E01",
+       "elokuva-elokreditoimatonnayttelija-nimi": "Taisto Luukkonen",
+       "elokuva-elokreditoimatonnayttelija-rooli": "roskakuski"
+      },
+      {
+       "tag": "elokreditoimatonnayttelija",
+       "name": "Pekka Arajärvi",
+       "id": "elonet_henkilo_1064303",
+       "type": "elonet_henkilo",
+       "roleName": "roskakuski",
+       "uncredited": 1,
+       "idx": 670000,
+       "finna-activity-code": "E01",
+       "finna-activity-text": "kreditoimatonnäyttelijä",
+       "relator": "E01",
+       "elokuva-elokreditoimatonnayttelija-nimi": "Pekka Arajärvi",
+       "elokuva-elokreditoimatonnayttelija-rooli": "roskakuski"
+      },
+      {
+       "tag": "elokreditoimatonnayttelija",
+       "name": "Hannu Kumlin",
+       "id": "elonet_henkilo_1064304",
+       "type": "elonet_henkilo",
+       "roleName": "roskakuski",
+       "uncredited": 1,
+       "idx": 680000,
+       "finna-activity-code": "E01",
+       "finna-activity-text": "kreditoimatonnäyttelijä",
+       "relator": "E01",
+       "elokuva-elokreditoimatonnayttelija-nimi": "Hannu Kumlin",
+       "elokuva-elokreditoimatonnayttelija-rooli": "roskakuski"
+      },
+      {
+       "tag": "elokreditoimatonnayttelija",
+       "name": "Harri Perkiö",
+       "id": "elonet_henkilo_1064305",
+       "type": "elonet_henkilo",
+       "roleName": "mies ravintolassa",
+       "uncredited": 1,
+       "idx": 690000,
+       "finna-activity-code": "E01",
+       "finna-activity-text": "kreditoimatonnäyttelijä",
+       "relator": "E01",
+       "elokuva-elokreditoimatonnayttelija-nimi": "Harri Perkiö",
+       "elokuva-elokreditoimatonnayttelija-rooli": "mies ravintolassa"
+      },
+      {
+       "tag": "elokreditoimatonnayttelija",
+       "name": "Seppo Myllyjärvi",
+       "id": "elonet_henkilo_1064306",
+       "type": "elonet_henkilo",
+       "roleName": "mies ravintolassa",
+       "uncredited": 1,
+       "idx": 700000,
+       "finna-activity-code": "E01",
+       "finna-activity-text": "kreditoimatonnäyttelijä",
+       "relator": "E01",
+       "elokuva-elokreditoimatonnayttelija-nimi": "Seppo Myllyjärvi",
+       "elokuva-elokreditoimatonnayttelija-rooli": "mies ravintolassa"
+      },
+      {
+       "tag": "elokreditoimatonnayttelija",
+       "name": "Ari Korhonen",
+       "id": "elonet_henkilo_249530",
+       "type": "elonet_henkilo",
+       "roleName": "mies ravintolassa",
+       "uncredited": 1,
+       "idx": 710000,
+       "finna-activity-code": "E01",
+       "finna-activity-text": "kreditoimatonnäyttelijä",
+       "relator": "E01",
+       "elokuva-elokreditoimatonnayttelija-nimi": "Ari Korhonen",
+       "elokuva-elokreditoimatonnayttelija-rooli": "mies ravintolassa"
+      },
+      {
+       "tag": "elokreditoimatonnayttelija",
+       "name": "Jussi Hannonen",
+       "id": "elonet_henkilo_1546365",
+       "type": "elonet_henkilo",
+       "roleName": "rumpali Pentti Kosken triossa",
+       "uncredited": 1,
+       "idx": 720000,
+       "finna-activity-code": "E01",
+       "finna-activity-text": "kreditoimatonnäyttelijä",
+       "relator": "E01",
+       "elokuva-elokreditoimatonnayttelija-nimi": "Jussi Hannonen",
+       "elokuva-elokreditoimatonnayttelija-rooli": "rumpali Pentti Kosken triossa"
+      },
+      {
+       "tag": "elokreditoimatonnayttelija",
+       "name": "Eskil Mansikka",
+       "id": "elonet_henkilo_1522596",
+       "type": "elonet_henkilo",
+       "roleName": "kosketinsoittaja Pentti Kosken triossa",
+       "uncredited": 1,
+       "idx": 730000,
+       "finna-activity-code": "E01",
+       "finna-activity-text": "kreditoimatonnäyttelijä",
+       "relator": "E01",
+       "elokuva-elokreditoimatonnayttelija-nimi": "Eskil Mansikka",
+       "elokuva-elokreditoimatonnayttelija-rooli": "kosketinsoittaja Pentti Kosken triossa"
+      },
+      {
+       "tag": "elokreditoimatonnayttelija",
+       "name": "Jaakko Talaskivi",
+       "id": "elonet_henkilo_100200",
+       "type": "elonet_henkilo",
+       "roleName": "sellin kurkistava vartija",
+       "uncredited": 1,
+       "idx": 740000,
+       "finna-activity-code": "E01",
+       "finna-activity-text": "kreditoimatonnäyttelijä",
+       "relator": "E01",
+       "elokuva-elokreditoimatonnayttelija-nimi": "Jaakko Talaskivi",
+       "elokuva-elokreditoimatonnayttelija-rooli": "sellin kurkistava vartija"
+      },
+      {
+       "tag": "elokreditoimatonnayttelija",
+       "name": "Haije Alanoja",
+       "id": "elonet_henkilo_101215",
+       "type": "elonet_henkilo",
+       "roleName": "silmälasipäinen nainen ravintolassa",
+       "uncredited": 1,
+       "idx": 750000,
+       "finna-activity-code": "E01",
+       "finna-activity-text": "kreditoimatonnäyttelijä",
+       "relator": "E01",
+       "elokuva-elokreditoimatonnayttelija-nimi": "Haije Alanoja",
+       "elokuva-elokreditoimatonnayttelija-rooli": "silmälasipäinen nainen ravintolassa"
+      },
+      {
+       "tag": "elokreditoimatonnayttelija",
+       "name": "Eevi Kuokkanen",
+       "id": "elonet_henkilo_1548831",
+       "type": "elonet_henkilo",
+       "roleName": "bingoemäntä",
+       "uncredited": 1,
+       "idx": 760000,
+       "finna-activity-code": "E01",
+       "finna-activity-text": "kreditoimatonnäyttelijä",
+       "relator": "E01",
+       "elokuva-elokreditoimatonnayttelija-nimi": "Eevi Kuokkanen",
+       "elokuva-elokreditoimatonnayttelija-rooli": "bingoemäntä"
+      },
+      {
+       "tag": "elokreditoimatonnayttelija",
+       "name": "Bertta Pellonpää",
+       "id": "elonet_henkilo_252328",
+       "type": "elonet_henkilo",
+       "roleName": "bingon pelaaja",
+       "uncredited": 1,
+       "idx": 770000,
+       "finna-activity-code": "E01",
+       "finna-activity-text": "kreditoimatonnäyttelijä",
+       "relator": "E01",
+       "elokuva-elokreditoimatonnayttelija-nimi": "Bertta Pellonpää",
+       "elokuva-elokreditoimatonnayttelija-rooli": "bingon pelaaja"
+      },
+      {
+       "tag": "elokreditoimatonnayttelija",
+       "name": "Helmeri Pellonpää",
+       "id": "elonet_henkilo_249485",
+       "type": "elonet_henkilo",
+       "roleName": "bingon palaaja",
+       "uncredited": 1,
+       "idx": 780000,
+       "finna-activity-code": "E01",
+       "finna-activity-text": "kreditoimatonnäyttelijä",
+       "relator": "E01",
+       "elokuva-elokreditoimatonnayttelija-nimi": "Helmeri Pellonpää",
+       "elokuva-elokreditoimatonnayttelija-rooli": "bingon palaaja"
+      },
+      {
+       "tag": "elokreditoimatonnayttelija",
+       "name": "Marja-Leena Helin",
+       "id": "elonet_henkilo_163984",
+       "type": "elonet_henkilo",
+       "roleName": "Valintatalon myyjä hissin luona / ravintolan asiakas",
+       "uncredited": 1,
+       "idx": 790000,
+       "finna-activity-code": "E01",
+       "finna-activity-text": "kreditoimatonnäyttelijä",
+       "relator": "E01",
+       "elokuva-elokreditoimatonnayttelija-nimi": "Marja-Leena Helin",
+       "elokuva-elokreditoimatonnayttelija-rooli": "Valintatalon myyjä hissin luona / ravintolan asiakas"
+      },
+      {
+       "tag": "elokreditoimatonnayttelija",
+       "name": "Aki Kaurismäki",
+       "id": "elonet_henkilo_100250",
+       "type": "elonet_henkilo",
+       "roleName": "hotellin vastaanottovirkailija",
+       "uncredited": 1,
+       "idx": 800000,
+       "finna-activity-code": "E01",
+       "finna-activity-text": "kreditoimatonnäyttelijä",
+       "relator": "E01",
+       "elokuva-elokreditoimatonnayttelija-nimi": "Aki Kaurismäki",
+       "elokuva-elokreditoimatonnayttelija-rooli": "hotellin vastaanottovirkailija"
+      },
+      {
+       "tag": "elokreditoimatonnayttelija",
+       "name": "Jukkapekka Vihinen",
+       "id": "elonet_henkilo_1555190",
+       "type": "elonet_henkilo",
+       "roleName": "matkatavarasäilytyksessä työskentelevä asemamies",
+       "uncredited": 1,
+       "idx": 810000,
+       "finna-activity-code": "E01",
+       "finna-activity-text": "kreditoimatonnäyttelijä",
+       "relator": "E01",
+       "elokuva-elokreditoimatonnayttelija-nimi": "Jukkapekka Vihinen",
+       "elokuva-elokreditoimatonnayttelija-rooli": "matkatavarasäilytyksessä työskentelevä asemamies"
+      },
+      {
+       "tag": "elokreditoimatonnayttelija",
+       "name": "Olli Varja",
+       "id": "elonet_henkilo_101274",
+       "type": "elonet_henkilo",
+       "roleName": "matkatavarasäiliön asiakas",
+       "uncredited": 1,
+       "idx": 820000,
+       "finna-activity-code": "E01",
+       "finna-activity-text": "kreditoimatonnäyttelijä",
+       "relator": "E01",
+       "elokuva-elokreditoimatonnayttelija-nimi": "Olli Varja",
+       "elokuva-elokreditoimatonnayttelija-rooli": "matkatavarasäiliön asiakas"
+      },
+      {
+       "tag": "elokreditoimatonnayttelija",
+       "name": "Tanja Talaskivi",
+       "id": "elonet_henkilo_263124",
+       "type": "elonet_henkilo",
+       "roleName": "nainen elokuvateatterissa",
+       "uncredited": 1,
+       "idx": 830000,
+       "finna-activity-code": "E01",
+       "finna-activity-text": "kreditoimatonnäyttelijä",
+       "relator": "E01",
+       "elokuva-elokreditoimatonnayttelija-nimi": "Tanja Talaskivi",
+       "elokuva-elokreditoimatonnayttelija-rooli": "nainen elokuvateatterissa"
+      },
+      {
+       "tag": "elokreditoimatonnayttelija",
+       "name": "Jukka Mäkinen",
+       "id": "elonet_henkilo_201331",
+       "type": "elonet_henkilo",
+       "roleName": "pahoinpidellyn Nikanderin löytävä roskakuski",
+       "uncredited": 1,
+       "idx": 840000,
+       "finna-activity-code": "E01",
+       "finna-activity-text": "kreditoimatonnäyttelijä",
+       "relator": "E01",
+       "elokuva-elokreditoimatonnayttelija-nimi": "Jukka Mäkinen",
+       "elokuva-elokreditoimatonnayttelija-rooli": "pahoinpidellyn Nikanderin löytävä roskakuski"
+      }
+     ]
+    },
+    "other": {
+     "presenters": [
+      {
+       "tag": "muutesiintyjat",
+       "name": "Laika-koira (rakennuksilla juokseva koira)",
+       "role": "muutesiintyjät",
+       "idx": 850000,
+       "finna-activity-code": "E99",
+       "finna-activity-text": "muutesiintyjät",
+       "relator": "E99"
+      }
+     ]
+    }
+   },
+   "languages": [],
+   "subjects": [
+    [
+     "alkoholinkäyttö"
+    ],
+    [
+     "autoilu"
+    ],
+    [
+     "jätehuolto"
+    ],
+    [
+     "kieltenopiskelu"
+    ],
+    [
+     "parisuhde"
+    ],
+    [
+     "pelit"
+    ]
+   ],
+   "images": [
+    "/Cover/Show?source=Solr&id=kavi.elonet_elokuva_107252&index=0&size=large",
+    "/Cover/Show?source=Solr&id=kavi.elonet_elokuva_107252&index=1&size=large"
+   ],
+   "recordPage": "/Record/kavi.elonet_elokuva_107252"
+  }
+ ],
+ "status": "OK"
+}

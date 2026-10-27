@@ -16,6 +16,8 @@ import type { BarcodeLookup } from "../services/barcode-lookup";
 import { createNotifier } from "../services/notifier";
 import type { Notifier } from "../services/notifier";
 import { dailyCheck, startDailyTimer, timePassed } from "../services/scheduler";
+import { ElonetClient } from "../services/elonet";
+import { CombinedProvider } from "../services/merge";
 import { TmdbClient } from "../services/tmdb";
 import type { MetadataProvider } from "../services/tmdb";
 import { LibraryStore } from "../storage/library";
@@ -92,9 +94,16 @@ export function App({ storage, systemLocale = navigator.language, notifier: noti
   const collator = useMemo(() => new Intl.Collator(lang), [lang]);
 
   const demo = !settings.tmdbApiKey;
+  const elonet = useMemo(() => new ElonetClient(), []); // keeps its request cache for the session
+  const [sourceWarning, setSourceWarning] = useState<"elonet" | "tmdb" | null>(null);
   const provider: MetadataProvider = useMemo(
-    () => (demo ? new DemoProvider() : new TmdbClient(settings.tmdbApiKey)),
-    [demo, settings.tmdbApiKey],
+    () => (demo
+      ? new DemoProvider() // no TMDB key: offline demo catalogue only
+      : new CombinedProvider(new TmdbClient(settings.tmdbApiKey), settings.useElonet ? elonet : null, {
+          preferElonetText: settings.preferElonetText,
+          onSourceError: (source) => setSourceWarning(source),
+        })),
+    [demo, settings.tmdbApiKey, settings.useElonet, settings.preferElonetText, elonet],
   );
 
   // Derived data: facet index, sort keys, filtered + sorted indexes, optional groups.
@@ -233,7 +242,7 @@ export function App({ storage, systemLocale = navigator.language, notifier: noti
             <span className="icon" aria-hidden>⚙︎</span>
             <span className="label">{t("nav.settings")}</span>
           </button>
-          <p className="attribution">{t("attribution")}</p>
+          <p className="attribution">{t("attribution")}{!demo && settings.useElonet && <><br />{t("elonet.attribution")}</>}</p>
         </nav>
 
         {showSettings ? (
@@ -336,10 +345,11 @@ export function App({ storage, systemLocale = navigator.language, notifier: noti
             inLibrary={new Set(items.map((i) => i.movie.tmdbId))}
             onAdd={add}
             onAddOwned={addOwned}
+            sourceWarning={sourceWarning}
             storage={storage}
             lookup={lookupProp}
             ocr={ocrProp}
-            onClose={() => setAdding(false)}
+            onClose={() => { setAdding(false); setSourceWarning(null); }}
           />
         )}
       </div>

@@ -1,0 +1,262 @@
+{
+ "resultCount": 1,
+ "records": [
+  {
+   "id": "kavi.elonet_elokuva_114492",
+   "title": "Runoilija muuttaa",
+   "year": "1927",
+   "alternativeTitles": [
+    "Skalden flyttar (ruotsinkielinen nimi)"
+   ],
+   "formats": [
+    {
+     "value": "0/Video/",
+     "translated": "Video"
+    },
+    {
+     "value": "1/Video/Short/",
+     "translated": "Elokuva, lyhyt"
+    }
+   ],
+   "genres": [
+    "komedia",
+    "fiktio"
+   ],
+   "summary": [
+    "Erkki Karun noin puolen tunnin mittainen komedia <i>Runoilija muuttaa</i> (1927) valmistui esityspariksi elokuvalle <i>Vaihdokas</i> (1927). Kodittomaksi joutunut runoilija Eero Keso (Ossi Korhonen) majoittuu herrasväki Tuiskun luokse (Uuno Laakso, Glory Leppänen). Saadakseen rikkaalta Joroisten enoltaan (Heikki Välisalmi) rahaa, runoilija on kirjoittanut menneensä naimisiin ja saaneensa pojan, mutta todellisuudessa enon lähettämät rahat ovat huvenneet juhlimiseen. Eno on tulossa Helsinkiin ja odottaa tapaavansa runoilijan perillisen ja vaimon, jota rouva Tuiskun vekkuli sisar Liisa (Birgit Sergelius) lupautuu esittämään."
+   ],
+   "nonPresenterAuthors": [
+    {
+     "tag": "elokreditoimatontekija",
+     "name": "Erkki Karu",
+     "role": "drt",
+     "id": "elonet_henkilo_105526",
+     "type": "elonet_henkilo",
+     "uncredited": 1,
+     "idx": 10,
+     "tehtava": "ohjaus",
+     "finna-activity-code": "D02",
+     "relator": "D02",
+     "elokuva-elokreditoimatontekija-nimi": "Erkki Karu"
+    },
+    {
+     "tag": "elolevittaja",
+     "name": "Suomen Biografi Osakeyhtiö",
+     "role": "fds",
+     "id": "elonet_yhtio_222356",
+     "type": "elonet_yhtio",
+     "idx": 70000,
+     "finna-activity-code": "fds",
+     "relator": "fds",
+     "elokuva-elolevittaja-vuosi": "1927",
+     "elokuva-elolevittaja-levitystapa": "teatterilevitys"
+    },
+    {
+     "tag": "elolevittaja",
+     "name": "Suomi-Filmi Oy",
+     "role": "fds",
+     "id": "elonet_yhtio_111432",
+     "type": "elonet_yhtio",
+     "idx": 80000,
+     "finna-activity-code": "fds",
+     "relator": "fds",
+     "elokuva-elolevittaja-vuosi": "1988",
+     "elokuva-elolevittaja-levitystapa": "videolevitys"
+    },
+    {
+     "tag": "elolevittaja",
+     "name": "VLMedia Oy",
+     "role": "fds",
+     "id": "elonet_yhtio_219880",
+     "type": "elonet_yhtio",
+     "idx": 90000,
+     "finna-activity-code": "fds",
+     "relator": "fds",
+     "elokuva-elolevittaja-vuosi": "2019",
+     "elokuva-elolevittaja-levitystapa": "DVD-levitys"
+    },
+    {
+     "tag": "elokreditoimatontekija",
+     "name": "Erkki Karu",
+     "role": "tuotannonjohto",
+     "id": "elonet_henkilo_105526",
+     "type": "elonet_henkilo",
+     "uncredited": 1,
+     "idx": 110000,
+     "tehtava": "tuotannonjohto",
+     "finna-activity-code": "A99",
+     "finna-activity-text": "tuotannonjohto",
+     "elokuva-elokreditoimatontekija-tehtava": "tuotannonjohto",
+     "relator": "A99",
+     "elokuva-elokreditoimatontekija-nimi": "Erkki Karu"
+    },
+    {
+     "tag": "elokreditoimatontekija",
+     "name": "Frans Ekebom",
+     "role": "cng",
+     "id": "elonet_henkilo_106398",
+     "type": "elonet_henkilo",
+     "uncredited": 1,
+     "idx": 120000,
+     "tehtava": "kuvaus",
+     "finna-activity-code": "cng",
+     "relator": "cng",
+     "elokuva-elokreditoimatontekija-nimi": "Frans Ekebom"
+    },
+    {
+     "tag": "elokreditoimatontekija",
+     "name": "Erkki Karu",
+     "role": "flm",
+     "id": "elonet_henkilo_105526",
+     "type": "elonet_henkilo",
+     "uncredited": 1,
+     "idx": 130000,
+     "tehtava": "leikkaus",
+     "finna-activity-code": "flm",
+     "relator": "flm",
+     "elokuva-elokreditoimatontekija-nimi": "Erkki Karu"
+    }
+   ],
+   "presenters": {
+    "credited": {
+     "presenters": [
+      {
+       "tag": "elonayttelija",
+       "name": "Heikki Välisalmi",
+       "id": "elonet_henkilo_229693",
+       "type": "elonet_henkilo",
+       "roleName": "eno Turpeinen Joroisista",
+       "idx": 10000,
+       "finna-activity-code": "E01",
+       "relator": "E01",
+       "elokuva-elonayttelija-nimityyppi": "henkilön nimi",
+       "elokuva-elonayttelija-rooli": "eno Turpeinen Joroisista"
+      },
+      {
+       "tag": "elonayttelija",
+       "name": "Ossi Korhonen",
+       "id": "elonet_henkilo_229690",
+       "type": "elonet_henkilo",
+       "roleName": "runoilija Eero Keso",
+       "idx": 20000,
+       "finna-activity-code": "E01",
+       "relator": "E01",
+       "elokuva-elonayttelija-nimityyppi": "henkilön nimi",
+       "elokuva-elonayttelija-rooli": "runoilija Eero Keso"
+      },
+      {
+       "tag": "elonayttelija",
+       "name": "Uuno Laakso",
+       "id": "elonet_henkilo_226564",
+       "type": "elonet_henkilo",
+       "roleName": "herra Tuisku",
+       "idx": 30000,
+       "finna-activity-code": "E01",
+       "relator": "E01",
+       "elokuva-elonayttelija-nimityyppi": "henkilön nimi",
+       "elokuva-elonayttelija-rooli": "herra Tuisku"
+      },
+      {
+       "tag": "elonayttelija",
+       "name": "Glory Leppänen",
+       "id": "elonet_henkilo_117932",
+       "type": "elonet_henkilo",
+       "roleName": "rouva Tuisku",
+       "idx": 40000,
+       "finna-activity-code": "E01",
+       "relator": "E01",
+       "elokuva-elonayttelija-nimityyppi": "henkilön nimi",
+       "elokuva-elonayttelija-rooli": "rouva Tuisku"
+      },
+      {
+       "tag": "elonayttelija",
+       "name": "Birgit Sergelius",
+       "id": "elonet_henkilo_229691",
+       "type": "elonet_henkilo",
+       "roleName": "Liisa, rouva Tuiskun sisar",
+       "idx": 50000,
+       "finna-activity-code": "E01",
+       "relator": "E01",
+       "elokuva-elonayttelija-nimityyppi": "henkilön nimi",
+       "elokuva-elonayttelija-rooli": "Liisa, rouva Tuiskun sisar"
+      }
+     ]
+    },
+    "uncredited": {
+     "presenters": [
+      {
+       "tag": "elokreditoimatonnayttelija",
+       "name": "Heljä Salomaa",
+       "id": "elonet_henkilo_249938",
+       "type": "elonet_henkilo",
+       "roleName": "Kaksivuotias lapsi",
+       "uncredited": 1,
+       "idx": 180000,
+       "finna-activity-code": "E01",
+       "finna-activity-text": "kreditoimatonnäyttelijä",
+       "relator": "E01",
+       "elokuva-elokreditoimatonnayttelija-nimi": "Heljä Salomaa",
+       "elokuva-elokreditoimatonnayttelija-rooli": "Kaksivuotias lapsi"
+      },
+      {
+       "tag": "elokreditoimatonnayttelija",
+       "name": "Hannikainen",
+       "id": "elonet_henkilo_713402",
+       "type": "elonet_henkilo",
+       "roleName": "tunnistamaton rooli",
+       "uncredited": 1,
+       "idx": 190000,
+       "finna-activity-code": "E01",
+       "finna-activity-text": "kreditoimatonnäyttelijä",
+       "relator": "E01",
+       "elokuva-elokreditoimatonnayttelija-nimi": "Hannikainen",
+       "elokuva-elokreditoimatonnayttelija-rooli": "tunnistamaton rooli"
+      }
+     ]
+    }
+   },
+   "languages": [
+    "fin"
+   ],
+   "subjects": [
+    [
+     "filmatisointi"
+    ],
+    [
+     "huvit"
+    ],
+    [
+     "häätö"
+    ],
+    [
+     "kirjeenvaihto"
+    ],
+    [
+     "lapset"
+    ],
+    [
+     "naamiaiset"
+    ]
+   ],
+   "urls": [
+    {
+     "url": "https://players.icareus.com/elonet/embed/vod/256252744",
+     "text": "elokuva",
+     "desc": "elokuva",
+     "source": "kavi",
+     "embed": "iframe",
+     "warnings": [
+      "age_rating_7",
+      "content_descriptor_violence"
+     ]
+    }
+   ],
+   "images": [
+    "/Cover/Show?source=Solr&id=kavi.elonet_elokuva_114492&index=0&size=large",
+    "/Cover/Show?source=Solr&id=kavi.elonet_elokuva_114492&index=1&size=large"
+   ],
+   "recordPage": "/Record/kavi.elonet_elokuva_114492"
+  }
+ ],
+ "status": "OK"
+}

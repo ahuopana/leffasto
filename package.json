@@ -16,6 +16,7 @@
     "@tauri-apps/api": "^2.0.0",
     "@tauri-apps/plugin-http": "^2.8.3",
     "@tauri-apps/plugin-notification": "^2.7.0",
+    "@tauri-apps/plugin-opener": "^2.7.2",
     "@tesseract.js-data/eng": "^1.0.0",
     "@tesseract.js-data/fin": "^1.0.0",
     "@zxing/library": "^0.21.3",

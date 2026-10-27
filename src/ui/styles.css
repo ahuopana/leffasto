@@ -212,3 +212,7 @@ button.icon.small { font-size: 16px; }
 .candidate { display: block; text-align: left; padding: 3px 0; }
 .scan-queue footer { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); }
 .scan-item.matched { background: color-mix(in srgb, #1baf7a 6%, transparent); }
+.source-badge { display: inline-block; margin-left: 8px; padding: 0 7px; border-radius: 9px; font-size: 11px; background: color-mix(in srgb, var(--text) 10%, transparent); color: var(--muted); vertical-align: 1px; }
+.source-badge.both { background: color-mix(in srgb, #1baf7a 22%, transparent); color: var(--text); }
+.source-badge.elonet { background: color-mix(in srgb, #2a78d6 20%, transparent); color: var(--text); }
+.detail a { color: var(--accent); }

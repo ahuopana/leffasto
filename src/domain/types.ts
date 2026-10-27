@@ -23,7 +23,11 @@ export interface Movie {
   directors: string[];
   cast: string[];
   countries: string[];
+  /** TMDB poster path ("/abc.jpg") or an absolute image URL (Elonet). */
   posterPath?: string;
+  /** Elonet / Finna record id, e.g. "kavi.elonet_elokuva_113528". */
+  elonetId?: string;
+  elonetUrl?: string;
 }
 
 export type LoanDirection = "lentTo" | "borrowedFrom";
@@ -88,6 +92,10 @@ export interface Settings {
   avoidRepeatDays: number;
   /** Statistics page: whole library or only the movies matching the current filters. */
   statsScope: "all" | "filtered";
+  /** Look up Finnish films in Elonet (Finnish National Filmography) in addition to TMDB. */
+  useElonet: boolean;
+  /** Prefer Elonet's Finnish title and synopsis for films found in both. */
+  preferElonetText: boolean;
   view: "grid" | "list";
   groupBy: FacetId | "none";
   sortKey: ListColumn;
@@ -106,6 +114,8 @@ export const defaultSettings: Settings = {
   suggestOwnedUnwatched: false,
   avoidRepeatDays: 30,
   statsScope: "all",
+  useElonet: true,
+  preferElonetText: true,
   view: "grid",
   groupBy: "none",
   sortKey: "title",

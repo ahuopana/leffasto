@@ -62,6 +62,10 @@ export function SettingsView({ settings, notifier, onChange }: { settings: Setti
         {t("settings.suggestionTime")}
         <input type="time" value={settings.suggestionTime} onChange={(e) => set("suggestionTime", e.target.value || "18:00")} />
       </label>
+      <h3>{t("settings.sources")}</h3>
+      <label className="check"><input type="checkbox" checked={settings.useElonet} onChange={(e) => set("useElonet", e.target.checked)} /> {t("settings.useElonet")}</label>
+      <p className="muted small">{t("settings.useElonetHelp")}</p>
+      <label className="check"><input type="checkbox" checked={settings.preferElonetText} disabled={!settings.useElonet} onChange={(e) => set("preferElonetText", e.target.checked)} /> {t("settings.preferElonet")}</label>
       <label className="field">
         {t("settings.apiKey")}
         <input type="password" value={settings.tmdbApiKey} onChange={(e) => set("tmdbApiKey", e.target.value.trim())} />

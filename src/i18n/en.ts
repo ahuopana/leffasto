@@ -249,6 +249,18 @@ export const en = {
   "cover.loadingEngine": "Loading text recognition…",
   "cover.again": "Another photo",
   "scan.matchPercent": "{percent}% match",
+  "settings.sources": "Metadata sources",
+  "settings.useElonet": "Look up Finnish films in Elonet",
+  "settings.useElonetHelp": "Elonet is the Finnish National Filmography (KAVI). It adds Finnish titles, synopses, directors and cast for Finnish films and needs no key. Free for personal, non-commercial use.",
+  "settings.preferElonet": "Prefer Elonet's Finnish title and synopsis",
+  "elonet.attribution": "Finnish film data: Elonet / National Audiovisual Institute (KAVI), personal non-commercial use.",
+  "detail.openElonet": "Open in Elonet",
+  "add.source.tmdb": "TMDB",
+  "add.source.elonet": "Elonet",
+  "add.source.both": "TMDB + Elonet",
+  "add.elonetUnavailable": "Elonet is not responding; showing TMDB results only.",
+  "add.tmdbUnavailable": "TMDB is not responding; showing Elonet results only.",
+  "detail.cast": "Cast: {names}",
 } as const;
 
 export type MessageKey = keyof typeof en;

@@ -20,7 +20,7 @@
       }
     ],
     "security": {
-      "csp": "default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; worker-src 'self' blob:; connect-src 'self' https://api.themoviedb.org ipc: http://ipc.localhost; img-src 'self' data: blob: https://image.tmdb.org; media-src 'self' blob: mediastream:; style-src 'self' 'unsafe-inline'"
+      "csp": "default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; worker-src 'self' blob:; connect-src 'self' https://api.themoviedb.org ipc: http://ipc.localhost; img-src 'self' data: blob: https://image.tmdb.org https://elonet.finna.fi; media-src 'self' blob: mediastream:; style-src 'self' 'unsafe-inline'"
     }
   },
   "bundle": {
