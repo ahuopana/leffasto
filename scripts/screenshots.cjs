@@ -113,6 +113,19 @@ async function waitForServer(url, tries = 80) {
     await page.locator(".detail").evaluate((e) => e.scrollTo(0, e.scrollHeight));
     await shot("11-loan-form-fi");
 
+    // Statistics (Finnish), then filtered scope and the English UI
+    await page.goto(`${URL}/?seed=2000`);
+    await page.locator(".sidebar button", { hasText: "Tilastot" }).click();
+    await page.waitForSelector(".tile");
+    await shot("12-stats-fi");
+    await page.locator(".bar-row").first().hover();
+    await page.locator(".chart-card", { hasText: "Tulostaulu" }).scrollIntoViewIfNeeded();
+    await page.locator(".stats-page").evaluate((e) => e.scrollTo(0, e.scrollHeight));
+    await page.waitForTimeout(150);
+    await shot("13-stats-leaderboard-fi");
+    await page.locator(".chart-card", { hasText: "Tulostaulu" }).getByLabel("Ryhmittely").selectOption("country").catch(() => {});
+    await page.locator(".chart-card", { hasText: "Tulostaulu" }).locator("select").first().selectOption("genre");
+
     // English UI, list grouped by decade, all filters reset
     await page.goto(`${URL}/?seed=2000`);
     await page.getByRole("button", { name: /Asetukset/ }).click();
@@ -120,6 +133,9 @@ async function waitForServer(url, tries = 80) {
     await page.getByRole("button", { name: /^All movies/ }).click();
     await page.locator("select").selectOption("decade");
     await shot("07-list-grouped-by-decade-en");
+    await page.locator(".sidebar button", { hasText: "Statistics" }).click();
+    await page.waitForSelector(".tile");
+    await shot("14-stats-en");
 
     await browser.close();
     if (errors.length) { console.error("page errors:", errors); process.exitCode = 1; }

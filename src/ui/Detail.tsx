@@ -21,6 +21,7 @@ interface Props {
   onLend: (person: string, opts: { since?: string; due?: string; note?: string }) => void;
   onBorrow: (person: string, opts: { since?: string; due?: string; note?: string }) => void;
   onReturn: () => void;
+  onSetWatchedDates: (dates: string[]) => void;
   onUpdate: (patch: Partial<UserEntry>) => void;
   onSetRating: (rating: number | undefined) => void;
   onMarkWatched: () => void;
@@ -29,10 +30,12 @@ interface Props {
   onClose: () => void;
 }
 
-export function Detail({ item, settings, locations, defaultLocationName, people, today, onLend, onBorrow, onReturn, onUpdate, onSetRating, onMarkWatched, onMarkUnwatched, onRemove, onClose }: Props) {
+export function Detail({ item, settings, locations, defaultLocationName, people, today, onLend, onBorrow, onReturn, onSetWatchedDates, onUpdate, onSetRating, onMarkWatched, onMarkUnwatched, onRemove, onClose }: Props) {
   const { t } = useI18n();
   const [confirmUnwatch, setConfirmUnwatch] = useState(false);
   const [newLocation, setNewLocation] = useState<string | null>(null);
+  const [newDate, setNewDate] = useState("");
+  const { lang } = useI18n();
   const { movie, entry } = item;
   const title = displayTitle(movie, settings);
   const overview = displayOverview(movie, settings.contentLanguage);
@@ -119,12 +122,30 @@ export function Detail({ item, settings, locations, defaultLocationName, people,
           )}
         </div>
       )}
-      {entry.watchedDates.length > 0 && (
-        <p className="muted small">
-          {t("detail.watchedOn", {
-            dates: entry.watchedDates.map((d) => new Date(d).toLocaleDateString()).join(", "),
-          })}
-        </p>
+      {entry.status === "watched" && (
+        <div className="field watched-dates">
+          <span>{t("detail.watchedDates")}</span>
+          {entry.watchedDates.length === 0 && <span className="muted small">{t("detail.noDates")}</span>}
+          <ul>
+            {entry.watchedDates.map((d) => (
+              <li key={d}>
+                {new Date(`${d}T12:00:00`).toLocaleDateString(lang)}
+                <button className="icon small" aria-label={t("detail.removeDate", { date: d })} onClick={() => onSetWatchedDates(entry.watchedDates.filter((x) => x !== d))}>×</button>
+              </li>
+            ))}
+          </ul>
+          <form
+            className="inline-form"
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (newDate) onSetWatchedDates([...entry.watchedDates, newDate]);
+              setNewDate("");
+            }}
+          >
+            <input type="date" aria-label={t("detail.addDate")} value={newDate} onChange={(e) => setNewDate(e.target.value)} />
+            <button className="toggle" type="submit" disabled={!newDate}>{t("detail.addDate")}</button>
+          </form>
+        </div>
       )}
       <div className="field">
         <span>{t("detail.rating")}</span>

@@ -25,6 +25,7 @@ import { FilterPanel } from "./FilterPanel";
 import { ListView } from "./ListView";
 import { SettingsView } from "./SettingsView";
 import { Shelves } from "./Shelves";
+import { StatsView } from "./StatsView";
 import { TonightsPick } from "./TonightsPick";
 import { VirtualGrid } from "./VirtualGrid";
 import { FACET_LABELS } from "../domain/facets";
@@ -70,6 +71,7 @@ export function App({ storage, systemLocale = navigator.language, notifier: noti
   const [items, setItems] = useState(() => store.list());
   const [settings, setSettings] = useState(() => store.getSettings());
   const [showSettings, setShowSettings] = useState(false);
+  const [showStats, setShowStats] = useState(false);
   const [filter, setFilter] = useState<FilterState>(emptyFilter);
   const [showFilters, setShowFilters] = useState(false);
   const [selected, setSelected] = useState<number | null>(null);
@@ -119,7 +121,7 @@ export function App({ storage, systemLocale = navigator.language, notifier: noti
   useEffect(() => {
     if (pickResult.history !== sug.history) saveSug({ ...sug, history: pickResult.history });
   }, [pickResult.history, sug, saveSug]);
-  const showPick = !showSettings && !!pickResult.pick && sug.dismissed !== today && !isActive(filter);
+  const showPick = !showSettings && !showStats && !!pickResult.pick && sug.dismissed !== today && !isActive(filter);
 
   // Daily notification (while the app is open): at the chosen time, and once on launch if that time has passed.
   const live = useRef({ items, settings, sug });
@@ -142,6 +144,7 @@ export function App({ storage, systemLocale = navigator.language, notifier: noti
     if (timePassed(settings.suggestionTime, now())) void run();
     return startDailyTimer(() => live.current.settings.suggestionTime, () => void run(), now);
   }, [settings.notificationsEnabled, settings.suggestionTime, lang, notifier, saveSug]);
+  const allIndexes = useMemo(() => items.map((_, i) => i), [items]);
   const deferredFilter = useDeferredValue(filter);
   const filtered = useMemo(() => applyFilters(index, deferredFilter), [index, deferredFilter]);
   const sorted = useMemo(
@@ -182,6 +185,7 @@ export function App({ storage, systemLocale = navigator.language, notifier: noti
   }
   const applyPreset = (p: Preset) => {
     setShowSettings(false);
+    setShowStats(false);
     setSelected(null);
     setFilter(
       p === "all" ? selectAll(filter, "status")
@@ -196,16 +200,20 @@ export function App({ storage, systemLocale = navigator.language, notifier: noti
   return (
     <I18nContext.Provider value={i18n}>
       <div className="app">
-        <nav className={`sidebar ${showFilters && !showSettings ? "collapsed" : ""}`}>
+        <nav className={`sidebar ${showFilters && !showSettings && !showStats ? "collapsed" : ""}`}>
           <h1><span aria-hidden>🎬</span><span className="label"> {t("appName")}</span></h1>
           {NAV.map(({ preset: p, label }) => (
-            <button key={p} className={!showSettings && preset === p ? "active" : ""} title={t(label)} onClick={() => applyPreset(p)}>
+            <button key={p} className={!showSettings && !showStats && preset === p ? "active" : ""} title={t(label)} onClick={() => applyPreset(p)}>
               <span className="icon" aria-hidden>{NAV_ICON[p]}</span>
               <span className="label">{t(label)}</span>
               <span className="count">{presetCount(p)}</span>
             </button>
           ))}
-          <button className={showSettings ? "active" : ""} title={t("nav.settings")} onClick={() => { setShowSettings(true); setSelected(null); }}>
+          <button className={showStats && !showSettings ? "active" : ""} title={t("nav.stats")} onClick={() => { setShowStats(true); setShowSettings(false); setSelected(null); }}>
+            <span className="icon" aria-hidden>📊</span>
+            <span className="label">{t("nav.stats")}</span>
+          </button>
+          <button className={showSettings ? "active" : ""} title={t("nav.settings")} onClick={() => { setShowSettings(true); setShowStats(false); setSelected(null); }}>
             <span className="icon" aria-hidden>⚙︎</span>
             <span className="label">{t("nav.settings")}</span>
           </button>
@@ -214,6 +222,19 @@ export function App({ storage, systemLocale = navigator.language, notifier: noti
 
         {showSettings ? (
           <main><SettingsView settings={settings} notifier={notifier} onChange={(s) => changeSettings(s)} /></main>
+        ) : showStats ? (
+          <main className="stats-page">
+            <StatsView
+              index={index}
+              indexes={settings.statsScope === "all" ? allIndexes : filtered}
+              settings={settings}
+              collator={collator}
+              defaultLocation={defaultLocationName}
+              onScope={(statsScope) => changeSettings({ statsScope })}
+              onDrill={(facet, value) => { setFilter(selectOnly(emptyFilter, facet, value)); setShowStats(false); setSelected(null); }}
+              now={now}
+            />
+          </main>
         ) : (
           <>
             {showFilters && (
@@ -272,7 +293,7 @@ export function App({ storage, systemLocale = navigator.language, notifier: noti
           </>
         )}
 
-        {selectedItem && !showSettings && (
+        {selectedItem && !showSettings && !showStats && (
           <Detail
             item={selectedItem}
             settings={settings}
@@ -283,6 +304,7 @@ export function App({ storage, systemLocale = navigator.language, notifier: noti
             onLend={(person, opts) => setItems(store.lend(selectedItem.movie.tmdbId, person, opts, now()))}
             onBorrow={(person, opts) => setItems(store.borrow(selectedItem.movie.tmdbId, person, opts, now()))}
             onReturn={() => setItems(store.returnLoan(selectedItem.movie.tmdbId, now()))}
+            onSetWatchedDates={(dates) => setItems(store.setWatchedDates(selectedItem.movie.tmdbId, dates))}
             onUpdate={(patch) => update(selectedItem.movie.tmdbId, patch)}
             onSetRating={(r) => setItems(store.setRating(selectedItem.movie.tmdbId, r))}
             onMarkWatched={() => setItems(store.markWatched(selectedItem.movie.tmdbId))}

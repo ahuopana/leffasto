@@ -68,7 +68,7 @@ export function generateLibrary(count: number, seed = 1): LibraryItem[] {
         status,
         rating: watched && rnd() < 0.7 ? 1 + Math.floor(rnd() * 10) : undefined,
         loan,
-        watchedDates: watched ? ["2024-05-01"] : [],
+        watchedDates: watched ? Array.from({ length: rnd() < 0.15 ? 2 : 1 }, () => ago(Math.floor(rnd() * 1100))).sort() : [],
         notes: "",
         addedAt: "2025-01-01T00:00:00.000Z",
       },

@@ -109,6 +109,12 @@ export class LibraryStore {
     return this.patch(tmdbId, (e) => ({ ...e, status: "watched", watchedDates: [...e.watchedDates, today(now)] }));
   }
 
+  /** Replaces the viewing dates (YYYY-MM-DD) of a movie; used to backfill history. */
+  setWatchedDates(tmdbId: number, dates: string[]): LibraryItem[] {
+    const clean = [...new Set(dates.filter((d) => /^\d{4}-\d{2}-\d{2}$/.test(d)))].sort();
+    return this.patch(tmdbId, (e) => ({ ...e, watchedDates: clean }));
+  }
+
   /** Back to "not watched"; clears the rating (and keeps the watch history). */
   markUnwatched(tmdbId: number): LibraryItem[] {
     return this.update(tmdbId, { status: "none" });

@@ -86,6 +86,8 @@ export interface Settings {
   /** Also suggest owned movies that are not watched yet. */
   suggestOwnedUnwatched: boolean;
   avoidRepeatDays: number;
+  /** Statistics page: whole library or only the movies matching the current filters. */
+  statsScope: "all" | "filtered";
   view: "grid" | "list";
   groupBy: FacetId | "none";
   sortKey: ListColumn;
@@ -103,6 +105,7 @@ export const defaultSettings: Settings = {
   notificationsEnabled: false,
   suggestOwnedUnwatched: false,
   avoidRepeatDays: 30,
+  statsScope: "all",
   view: "grid",
   groupBy: "none",
   sortKey: "title",
